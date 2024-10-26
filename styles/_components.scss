@@ -1,0 +1,13 @@
+@use "variables" as var;
+
+// $red: red;
+
+.test {
+  color: pink;
+}
+
+footer {
+  p {
+    color: var.$red;
+  }
+}

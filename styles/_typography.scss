@@ -1,0 +1,16 @@
+body {
+  // font-family: $font-stack;
+}
+
+// Headings
+h1 {
+  font-size: 2rem;
+
+  // @include respond-to(mobile-devices) {
+  //   font-size: 1.5rem;
+  // }
+
+  // @include respond-to(mobile) {
+  //   font-size: 1.25rem;
+  // }
+}

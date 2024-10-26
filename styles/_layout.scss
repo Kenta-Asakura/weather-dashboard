@@ -1,0 +1,18 @@
+// Containers
+.container {
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 20px;
+
+  // @include respond-to(md) {
+  //   max-width: 720px;
+  // }
+
+  // @include respond-to(lg) {
+  //   max-width: 960px;
+  // }
+
+  // @include respond-to(xl) {
+  //   max-width: 1140px;
+  // }
+}
