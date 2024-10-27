@@ -1,9 +1,12 @@
 @use "variables" as var;
-
-// $red: red;
+@use "breakpoints" as bp;
 
 .test {
   color: pink;
+}
+
+header {
+  
 }
 
 footer {

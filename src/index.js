@@ -1,5 +1,5 @@
 import '../styles/main.scss';
-import './test.js';
+import './hamburgerMenu.js';
 
 // Current location's weather
 // high priority
@@ -11,3 +11,6 @@ import './test.js';
 // -temperature
 // ---high and low
 // - sunset/sunrise
+
+const apiKey = process.env.ACCUWEATHER_API_KEY;
+// console.log(`Your API key is: ${apiKey}`);
