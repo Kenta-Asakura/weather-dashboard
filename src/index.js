@@ -18,12 +18,26 @@ const currentWeather = document.querySelector('.current-weather');
 const currentWeatherCity = currentWeather.querySelector('.current-weather__city');
 const currentWeatherTemp = currentWeather.querySelector('.current-weather__temperature');
 const currentWeatherCondition = currentWeather.querySelector('.current-weather__condition');
+const currentWeatherTempHi = currentWeather.querySelector('.current-weather__temperature-range__high');
+const currentWeatherTempLo = currentWeather.querySelector('.current-weather__temperature-range__low');
 
-const city = 'Tokyo'; // Replace with the city you want to fetch weather for`
-const lat = 35.6895; // Latitude for Tokyo
-const lon = 139.6917; // Longitude for Tokyo
-const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+function getWeatherData(lat, lon) {
+  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      console.log(data);
+
+      // Extract data to HTML mark up
+      currentWeatherCity.textContent = data.name;
+      currentWeatherTemp.textContent = `${Math.round(data.main.temp)}°`;
+      currentWeatherCondition.textContent = data.weather[0].main;
+      currentWeatherTempHi.textContent = `H:${Math.round(data.main.temp_max)}°`;
+      currentWeatherTempLo.textContent = `L:${Math.round(data.main.temp_min)}°`;
+    })
+    .catch(error => console.error('Error fetching the data:', error));
+};
 
 function getCurrentLocation() {
   if (navigator.geolocation) {
@@ -32,7 +46,8 @@ function getCurrentLocation() {
       const longitude = position.coords.longitude;
       // console.log(`Latitude: ${latitude}, Longitude: ${longitude}`);
 
-      getWeatherData(latitude, longitude);
+      console.log(getWeatherData(latitude, longitude));
+      return { latitude, longitude };
     }, error => {
       console.error('Error getting geolocation:', error);
     });
@@ -40,16 +55,4 @@ function getCurrentLocation() {
     console.error('Geolocation is not supported by this browser.');
   }
 };
-
 getCurrentLocation();
-
-function getWeatherData(lat, lon) {
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data); // Display the data in the console
-    })
-    .catch(error => console.error('Error fetching the data:', error));
-};
