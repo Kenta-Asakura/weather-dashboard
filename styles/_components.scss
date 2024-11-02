@@ -6,7 +6,34 @@
 }
 
 header {
+  height: var.$header-height-mobile;
 
+  .main-nav {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    &::after {
+      content: "";
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-left: 1.5px solid white;
+      border-top: 1.5px solid white;
+      transform: rotate(225deg);
+      margin-left: 5px;
+      margin-bottom: 3px;
+    }
+
+    &__location-btn {
+      font-size: 18px;
+      color: white;
+      background-color: black;
+      border: none;
+      cursor: pointer;
+    }
+  }
 }
 
 main {
@@ -16,7 +43,7 @@ main {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
+      height: calc(100vh - var.$header-height-mobile);
     }
 
     &__city {

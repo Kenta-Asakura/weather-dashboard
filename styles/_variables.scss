@@ -4,10 +4,16 @@ $primary-color: red;
 $secondary-color: orange;
 $tertiary-color: yellow;
 
+$rain-blue: #5AC8FA;
 $sky-blue: #007AFF;
-$cloud-white: #F2F2F7;
 $sun-yellow: #FFCC00;
+$white: #FFFFFF;
+$cloud-white: #F2F2F7;
 $storm-gray: #8E8E93;
 $night-black: #1C1C1E;
-$rain-blue: #5AC8FA;
-$white: #FFFFFF;
+$black: #000;
+
+// Components
+
+$header-height: 70px;
+$header-height-mobile: 40px;
