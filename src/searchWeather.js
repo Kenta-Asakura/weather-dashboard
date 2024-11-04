@@ -1,7 +1,9 @@
-const headerLocationBtn = document.querySelector('.main-nav__location-btn');
+import { showElement } from "./utils.js";
+import { hideElement } from "./utils.js";
 
-headerLocationBtn.addEventListener('click', () => {
-  // console.log('hello from header');
+const locationSearchPanel = document.querySelector(".location-search");
+const showLocationSearchBtn = document.querySelector(".main-nav__location-btn");
+const hideLocationSearchBtn = document.querySelector(".location-search__close-btn");
 
-  
-});
+showElement(showLocationSearchBtn, locationSearchPanel);
+hideElement(hideLocationSearchBtn, locationSearchPanel);
