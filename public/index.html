@@ -22,24 +22,32 @@
 
     <div class="location-search">
       <div class="container">
-          <button class="location-search__close-btn">X</button>
+        <div class="location-search__top">
+          <button class="location-search__top-close-btn">X</button>
+          <h4 class="location-search__top-header">Locations</h4>
+        </div>
 
-          <div class="location-search__header">
+        <input class="location-search__input" type="text" placeholder="Find Location">
+
+        <div class="location-search__current">
+          <div class="location-search__current-left">
+            <!-- <svg class="location-search__current-icon"></svg> -->
+            <span class="location-search__current-location">Tokyo</span>
           </div>
 
-          <input type="text" class="location-search">
-
-          <div class="location-search__current">
-            <div class="location-search__current-left">
-              <svg class="location-search__current-icon"></svg>
-              <span class="location-search__current-location">Tokyo</span>
-            </div>
-
-            <div class="location-search__current-right">
-              <svg class="location-search__current-weather-icon"></svg>
-              <span class="location-search__current-temperature">16C</span>
-            </div>
+          <div class="location-search__current-right">
+            <!-- <svg class="location-search__current-weather-icon"></svg> -->
+            <span class="location-search__current-temperature">16C</span>
           </div>
+        </div>
+
+        <div class="location-search__results">
+          <ul class="location-search__results-list">
+            <li class="location-search__results-item">Test 1</li>
+            <li class="location-search__results-item">Test 2</li>
+            <li class="location-search__results-item">Test 3</li>
+          </ul>
+        </div>
       </div>
     </div>
   </header>
