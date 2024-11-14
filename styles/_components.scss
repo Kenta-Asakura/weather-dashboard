@@ -41,13 +41,11 @@ header {
     overflow: hidden;
     max-height: 0;
     visibility: hidden;
-    opacity: 0;
-    transition: max-height var.$transition, visibility var.$transition, opacity var.$transition;
+    transition: max-height var.$transition, visibility var.$transition;
 
     &--visible {
       max-height: 100%;
       visibility: visible;
-      opacity: 1;
     }
 
     .container {
@@ -83,8 +81,12 @@ header {
         background-color: var.$night-black;
         padding: 8px;
         box-shadow: none;
+        color: var.$storm-gray;
+        font-size: 14px;
 
-        &::placeholder {}
+        &::placeholder {
+
+        }
         &::selection {
           outline: none;
         }
@@ -104,7 +106,9 @@ header {
       &-results {
         &-list {}
 
-        &-item {}
+        &-item {
+          font-size: 16px;
+        }
       }
     }
 

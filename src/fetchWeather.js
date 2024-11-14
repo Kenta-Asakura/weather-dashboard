@@ -14,7 +14,6 @@ function fetchAndUpdateWeatherData(lat, lon) {
     .then(response => response.json())
     .then(data => {
       console.log(data);
-      // console.log(data.name);
 
       // Extract data to HTML mark up
       selectedLocation.textContent = data.name;
@@ -26,14 +25,16 @@ function fetchAndUpdateWeatherData(lat, lon) {
     })
     .catch(error => console.error('Error fetching the data:', error));
 };
+// fetchAndUpdateWeatherData(35.5305307, 139.7028012);
 
 function searchCityCoords(city) {
   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
+  console.log('Hello form searchCityCoords');
 
   fetch(url)
     .then(response => response.json())
     .then(data => {
-      // console.log(data);
+      console.log(data);
 
       const coords = {
         lat: data.coord.lat,
@@ -45,7 +46,8 @@ function searchCityCoords(city) {
     })
     .catch(error => console.error('Error fetching the data:', error));
 };
-searchCityCoords("Manila");
+// TEST
+// searchCityCoords('Manila');
 
 function getCurrentLocationCoords() {
   if (navigator.geolocation) {
@@ -63,4 +65,4 @@ function getCurrentLocationCoords() {
     console.error('Geolocation is not supported by this browser.');
   }
 };
-getCurrentLocationCoords();
+// getCurrentLocationCoords();
