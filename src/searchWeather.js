@@ -1,40 +1,25 @@
-import { showElement } from "./utils.js";
-import { hideElement } from "./utils.js";
+import { showElement, hideElement, debounce } from "./utils.js";
 import { fetchAndUpdateWeatherData } from "./fetchWeather.js";
 
+// APIs
 const apiKey = process.env.ACCUWEATHER_API_KEY;
+const cititesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/cities.json";
+const statesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/states.json";
+
+// Queries
 const locationSearchPanel = document.querySelector(".location-search");
 const showLocationSearchBtn = document.querySelector(".main-nav__location-btn");
 const hideLocationSearchBtn = document.querySelector(".location-search__top-close-btn");
 const searchInput = document.querySelector("#location-input");
 const displayedList = document.querySelector(".location-search__bottom-results-list");
-const cititesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/cities.json";
-const statesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/states.json";
 
 showElement(showLocationSearchBtn, locationSearchPanel);
 hideElement(hideLocationSearchBtn, locationSearchPanel);
 
-function debounce(cb, delay = 300) {
-  let timeout
-
-  return (...args) => {
-    clearTimeout(timeout)
-    timeout = setTimeout(() => {
-      cb(...args)
-    }, delay)
-  }
-}
-
 const debouncedDisplayMatches = debounce(displayMatches, 500);
 searchInput.addEventListener('input', debouncedDisplayMatches);
-// searchInput.addEventListener('change', displayMatches);
-// searchInput.addEventListener('keyup', displayMatches);
-let cities = [];
-let citiesMatch = [];
 
-// - when the user clicks/selects on a match use the OpenWeather API
-// to get the weather of the selected value
-// - display the weather of selected match
+let cities = [];
 
 fetch(cititesEndPoint)
   .then((res) => res.json())
@@ -52,12 +37,15 @@ function findMatches(wordToMatch, cities) {
   });
 }
 
+const clearInnerHTML = (e) => e.innerHTML = '';
+const clearInputValue = (e) => e.value = '';
+
 function displayMatches() {
   const searchInputValue = searchInput.value;
   const citiesMatch = findMatches(searchInputValue, cities);
-  console.log(citiesMatch);
+  // console.log(citiesMatch);
+  clearInnerHTML(displayedList);
 
-  displayedList.innerHTML = '';
   citiesMatch.forEach(city => {
     const li = document.createElement("li");
     li.className = 'location-search__bottom-results-item';
@@ -67,19 +55,15 @@ function displayMatches() {
     displayedList.appendChild(li);
   });
 
-  // TEST to check the lat and long dataset
-  // const locations = document.querySelectorAll('.location-search__bottom-results-item');
-  // locations.forEach((e) => {
-  //   console.log(e.dataset);
-  // })
+  displayedList.addEventListener('click', (event) => {
+    const location = event.target.closest('.location-search__bottom-results-item');
 
-  const locations = document.querySelectorAll('.location-search__bottom-results-item');
-  // console.log(locations);
-
-  locations.forEach((location) => {
-    location.addEventListener('click', () => {
-      // console.log(location.dataset.lat, location.dataset.long);
-      fetchAndUpdateWeatherData(location.dataset.lat, location.dataset.long)
-    })
+    if (location) {
+      const lat = location.dataset.lat;
+      const lon = location.dataset.long;
+      fetchAndUpdateWeatherData(lat, lon);
+      clearInnerHTML(searchInput);
+      clearInputValue(displayedList);
+    }
   });
 }

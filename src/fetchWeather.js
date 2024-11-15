@@ -25,27 +25,23 @@ export function fetchAndUpdateWeatherData(lat, lon) {
     })
     .catch(error => console.error('Error fetching the data:', error));
 };
-// fetchAndUpdateWeatherData(35.5305307, 139.7028012);
 
-function searchCityCoords(city) {
-  const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
-  console.log('Hello form searchCityCoords');
+// function searchCityCoords(city) {
+//   const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}`
+//   console.log('Hello form searchCityCoords');
 
-  fetch(url)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
+//   fetch(url)
+//     .then(response => response.json())
+//     .then(data => {
+//       const coords = {
+//         lat: data.coord.lat,
+//         lon: data.coord.lon
+//       };
 
-      const coords = {
-        lat: data.coord.lat,
-        lon: data.coord.lon
-      };
-      // console.log(coords);
-
-      return coords;
-    })
-    .catch(error => console.error('Error fetching the data:', error));
-};
+//       return coords;
+//     })
+//     .catch(error => console.error('Error fetching the data:', error));
+// };
 
 // TEST
 // searchCityCoords('Manila');
@@ -58,7 +54,6 @@ function getCurrentLocationCoords() {
       // console.log(fetchAndUpdateWeatherData(latitude, longitude));
 
       fetchAndUpdateWeatherData(latitude, longitude)
-      // return { latitude, longitude };
     }, error => {
       console.error('Error getting geolocation:', error);
     });
