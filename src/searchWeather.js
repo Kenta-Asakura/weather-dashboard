@@ -1,5 +1,6 @@
 import { showElement } from "./utils.js";
 import { hideElement } from "./utils.js";
+import { fetchAndUpdateWeatherData } from "./fetchWeather.js";
 
 const apiKey = process.env.ACCUWEATHER_API_KEY;
 const locationSearchPanel = document.querySelector(".location-search");
@@ -38,8 +39,8 @@ let citiesMatch = [];
 fetch(cititesEndPoint)
   .then((res) => res.json())
   .then((data) => {
-    // console.log(data); // You can use this data after it's fetched
-    cities = data; // Store the fetched cities data in the 'cities' variable
+    // console.log(data);
+    cities = data;
   });
 
 function findMatches(wordToMatch, cities) {
@@ -54,13 +55,31 @@ function findMatches(wordToMatch, cities) {
 function displayMatches() {
   const searchInputValue = searchInput.value;
   const citiesMatch = findMatches(searchInputValue, cities);
-  // console.log(citiesMatch);
+  console.log(citiesMatch);
 
   displayedList.innerHTML = '';
   citiesMatch.forEach(city => {
     const li = document.createElement("li");
     li.className = 'location-search__bottom-results-item';
     li.textContent = `${city.name}, ${city.state_name} ${city.country_code}`;
+    li.setAttribute("data-lat", city.latitude);
+    li.setAttribute("data-long", city.longitude);
     displayedList.appendChild(li);
+  });
+
+  // TEST to check the lat and long dataset
+  // const locations = document.querySelectorAll('.location-search__bottom-results-item');
+  // locations.forEach((e) => {
+  //   console.log(e.dataset);
+  // })
+
+  const locations = document.querySelectorAll('.location-search__bottom-results-item');
+  // console.log(locations);
+
+  locations.forEach((location) => {
+    location.addEventListener('click', () => {
+      // console.log(location.dataset.lat, location.dataset.long);
+      fetchAndUpdateWeatherData(location.dataset.lat, location.dataset.long)
+    })
   });
 }

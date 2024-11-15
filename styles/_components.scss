@@ -113,8 +113,9 @@ header {
     }
 
     &__bottom {
-      height: 100%;
       background-color: var.$raisin-black;
+      height: 100%;
+      overflow-y: auto;
 
       &-results {
         &-list {

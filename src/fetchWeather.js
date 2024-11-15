@@ -7,17 +7,17 @@ const currentWeatherCondition = currentWeather.querySelector('.current-weather__
 const currentWeatherTempHi = currentWeather.querySelector('.current-weather__temperature-range__high');
 const currentWeatherTempLo = currentWeather.querySelector('.current-weather__temperature-range__low');
 
-function fetchAndUpdateWeatherData(lat, lon) {
+export function fetchAndUpdateWeatherData(lat, lon) {
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
   fetch(url)
     .then(response => response.json())
     .then(data => {
-      console.log(data);
+      // console.log(data);
 
       // Extract data to HTML mark up
-      selectedLocation.textContent = data.name;
-      // currentWeatherCity.textContent = data.name;
+      selectedLocation.textContent = `${data.name}, ${data.sys.country}`;
+      currentWeatherCity.textContent = data.name;
       currentWeatherTemp.textContent = `${Math.round(data.main.temp)}°`;
       currentWeatherCondition.textContent = data.weather[0].main;
       currentWeatherTempHi.textContent = `H:${Math.round(data.main.temp_max)}°`;
@@ -46,6 +46,7 @@ function searchCityCoords(city) {
     })
     .catch(error => console.error('Error fetching the data:', error));
 };
+
 // TEST
 // searchCityCoords('Manila');
 
@@ -65,4 +66,4 @@ function getCurrentLocationCoords() {
     console.error('Geolocation is not supported by this browser.');
   }
 };
-// getCurrentLocationCoords();
+getCurrentLocationCoords();
