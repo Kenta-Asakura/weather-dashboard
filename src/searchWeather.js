@@ -1,4 +1,3 @@
-import { log } from "neo-async";
 import { showElement } from "./utils.js";
 import { hideElement } from "./utils.js";
 
@@ -6,20 +5,13 @@ const apiKey = process.env.ACCUWEATHER_API_KEY;
 const locationSearchPanel = document.querySelector(".location-search");
 const showLocationSearchBtn = document.querySelector(".main-nav__location-btn");
 const hideLocationSearchBtn = document.querySelector(".location-search__top-close-btn");
+const searchInput = document.querySelector("#location-input");
+const displayedList = document.querySelector(".location-search__bottom-results-list");
+const cititesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/cities.json";
+const statesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/states.json";
 
 showElement(showLocationSearchBtn, locationSearchPanel);
 hideElement(hideLocationSearchBtn, locationSearchPanel);
-
-
-//
-const cities = [];
-const searchInput = document.querySelector("#location-input");
-const displayedList = document.querySelector(".location-search__bottom-results-list");
-
-// const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
-const openWeatherEndpoint = `https://api.openweathermap.org/geo/1.0/direct?q={query}&limit=5&appid=${apiKey}`;
-const cititesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/cities.json";
-const statesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/states.json";
 
 function debounce(cb, delay = 300) {
   let timeout
@@ -32,54 +24,43 @@ function debounce(cb, delay = 300) {
   }
 }
 
-const debouncedDisplayMatches = debounce(displayMatches, 400);
+const debouncedDisplayMatches = debounce(displayMatches, 500);
 searchInput.addEventListener('input', debouncedDisplayMatches);
 // searchInput.addEventListener('change', displayMatches);
 // searchInput.addEventListener('keyup', displayMatches);
+let cities = [];
+let citiesMatch = [];
 
-// fetch(endpoint)
-//   // .then(res => console.log('res', res))
-//   .then(res => res.json())
-//   // .then(data => cities.push(data))
-//   .then(data => cities.push(...data));
-// console.log(cities);
-
-function findMatches(wordToMatch, cities) {
-  return cities.filter((place) => {
-    console.log(place);
-    console.log(place.name);
-    const cityName = place.name
-
-    // check if the city or state matches what was searched
-    const regex = new RegExp(wordToMatch, "gi"); // ?
-    // return place.city.match(regex) || place.state.match(regex); //.match ??
-    return cityName.match(regex).match;
-  });
-}
-
-// - get the citites list
-// - match the current inmput the the list
-// - display the matches
 // - when the user clicks/selects on a match use the OpenWeather API
 // to get the weather of the selected value
 // - display the weather of selected match
 
+fetch(cititesEndPoint)
+  .then((res) => res.json())
+  .then((data) => {
+    // console.log(data); // You can use this data after it's fetched
+    cities = data; // Store the fetched cities data in the 'cities' variable
+  });
+
+function findMatches(wordToMatch, cities) {
+  return cities.filter((city) => {
+    const cityName = city.name;
+    const stateName = city.state_name;
+    const regex = new RegExp(wordToMatch, "gi");
+    return cityName.match(regex) || stateName.match(regex);
+  });
+}
+
 function displayMatches() {
   const searchInputValue = searchInput.value;
-  console.log(searchInputValue);
+  const citiesMatch = findMatches(searchInputValue, cities);
+  // console.log(citiesMatch);
 
-  // fetch(openWeatherEndpoint)
-  fetch(cititesEndPoint)
-    // .then(res => console.log('res', res))
-    .then((res) => res.json())
-    // .then(data => cities.push(data))
-    // .then((data) => cities.push(...data));
-    .then((data) =>
-      // console.log(data)
-      console.log(findMatches(searchInputValue, data))
-      // findMatches(searchInputValue, data)
-    );
-
-  // const matchArray = findMatches(searchInputValue, cities);
-  // console.log(matchArray);
+  displayedList.innerHTML = '';
+  citiesMatch.forEach(city => {
+    const li = document.createElement("li");
+    li.className = 'location-search__bottom-results-item';
+    li.textContent = `${city.name}, ${city.state_name} ${city.country_code}`;
+    displayedList.appendChild(li);
+  });
 }
