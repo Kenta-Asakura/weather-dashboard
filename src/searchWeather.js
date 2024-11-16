@@ -55,15 +55,16 @@ function displayMatches() {
     displayedList.appendChild(li);
   });
 
-  displayedList.addEventListener('click', (event) => {
-    const location = event.target.closest('.location-search__bottom-results-item');
+  displayedList.addEventListener('click', (e) => {
+    const location = e.target.closest('.location-search__bottom-results-item');
 
     if (location) {
       const lat = location.dataset.lat;
       const lon = location.dataset.long;
+      locationSearchPanel.classList.remove('location-search--visible');
+      clearInnerHTML(displayedList);
+      clearInputValue(searchInput);
       fetchAndUpdateWeatherData(lat, lon);
-      clearInnerHTML(searchInput);
-      clearInputValue(displayedList);
-    }
+    };
   });
 }

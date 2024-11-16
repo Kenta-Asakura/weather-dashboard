@@ -39,13 +39,15 @@ header {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    max-height: 0;
+    // max-height: 0;
     visibility: hidden;
-    transition: max-height var.$transition, visibility var.$transition;
+    opacity: 0;
+    transition: max-height var.$transition, visibility var.$transition, opacity var.$transition;
 
     &--visible {
-      max-height: 100%;
+      // max-height: 100%;
       visibility: visible;
+      opacity: 1;
     }
 
     .container {
@@ -67,8 +69,6 @@ header {
       &-header {
         margin: 0 auto;
         font-size: 14px;
-
-
       }
 
       &-close-btn {
@@ -85,7 +85,6 @@ header {
         font-size: 14px;
 
         &::placeholder {
-
         }
         &::selection {
           outline: none;
@@ -93,7 +92,6 @@ header {
         &:focus, &:focus-visible {
           outline: none;
         }
-
       }
 
       &-current {
@@ -129,6 +127,8 @@ header {
           padding: 8px 20px;
           padding-block: 8px;
           border-bottom: var.$border-gray;
+
+          &:hover { cursor: pointer;}
         }
       }
     }
@@ -170,7 +170,6 @@ main {
   .hourly-forecast {
     font-size: 20px;
     font-weight: 400;
-
   }
 
   .days-forecast {}
