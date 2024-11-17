@@ -21,12 +21,17 @@ searchInput.addEventListener('input', debouncedDisplayMatches);
 
 let cities = [];
 
-fetch(cititesEndPoint)
-  .then((res) => res.json())
-  .then((data) => {
-    // console.log(data);
+async function fetchCitiesData() {
+  try {
+    const response = await fetch(cititesEndPoint);
+    const data = await response.json();
+    console.log(data);
     cities = data;
-  });
+  } catch (error) {
+    console.error('error');
+  }
+};
+fetchCitiesData();
 
 function findMatches(wordToMatch, cities) {
   return cities.filter((city) => {
@@ -43,7 +48,7 @@ const clearInputValue = (e) => e.value = '';
 function displayMatches() {
   const searchInputValue = searchInput.value;
   const citiesMatch = findMatches(searchInputValue, cities);
-  // console.log(citiesMatch);
+  console.log(citiesMatch);
   clearInnerHTML(displayedList);
 
   citiesMatch.forEach(city => {
@@ -59,8 +64,11 @@ function displayMatches() {
     const location = e.target.closest('.location-search__bottom-results-item');
 
     if (location) {
+      const name = location.dataset.name;
       const lat = location.dataset.lat;
       const lon = location.dataset.long;
+      console.log(lat, lon);
+
       locationSearchPanel.classList.remove('location-search--visible');
       clearInnerHTML(displayedList);
       clearInputValue(searchInput);
