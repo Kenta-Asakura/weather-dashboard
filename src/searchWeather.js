@@ -48,7 +48,7 @@ const clearInputValue = (e) => e.value = '';
 function displayMatches() {
   const searchInputValue = searchInput.value;
   const citiesMatch = findMatches(searchInputValue, cities);
-  console.log(citiesMatch);
+  // console.log(citiesMatch);
   clearInnerHTML(displayedList);
 
   citiesMatch.forEach(city => {
@@ -67,7 +67,7 @@ function displayMatches() {
       const name = location.dataset.name;
       const lat = location.dataset.lat;
       const lon = location.dataset.long;
-      console.log(lat, lon);
+      // console.log(lat, lon);
 
       locationSearchPanel.classList.remove('location-search--visible');
       clearInnerHTML(displayedList);

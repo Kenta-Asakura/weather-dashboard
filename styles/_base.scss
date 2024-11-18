@@ -21,7 +21,7 @@ html {
 body {
     background-color: var.$raisin-black;
     box-sizing: border-box;
-    padding: 3rem;
+    // padding: 3rem;
     overflow-x: hidden;
 
     @include bp.respond-to(mobile-devices) {

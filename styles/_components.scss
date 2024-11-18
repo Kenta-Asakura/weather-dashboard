@@ -44,6 +44,10 @@ header {
     opacity: 0;
     transition: max-height var.$transition, visibility var.$transition, opacity var.$transition;
 
+    // TEST
+    // opacity: 1;
+    // visibility: visible;
+
     &--visible {
       // max-height: 100%;
       visibility: visible;
@@ -72,8 +76,35 @@ header {
       }
 
       &-close-btn {
-        position: absolute;
-        right: 0;
+        position: relative;
+        // right: 0;
+
+        height: 20px;
+        background: transparent;
+        border: none;
+        cursor: pointer;
+
+        &::before,
+        &::after {
+          content: "";
+          display: block;
+          margin-top: -3px;
+          width: 20px;
+          height: 3px;
+          background: var.$white;
+          border-radius: 1px;
+        }
+
+        &::before {
+          -webkit-transform: rotate(-45deg);
+          -ms-transform: rotate(-45deg);
+          transform: rotate(-45deg);
+        }
+        &::after {
+          -webkit-transform: rotate(45deg);
+          -ms-transform: rotate(45deg);
+          transform: rotate(45deg);
+        }
       }
 
       &-input {

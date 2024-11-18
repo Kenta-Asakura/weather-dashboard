@@ -17,7 +17,7 @@ export function fetchAndUpdateWeatherData(lat, lon) {
   fetch(url)
     .then(response => response.json())
     .then(data => {
-      console.log(data);
+      // console.log(data);
 
       // Extract data to HTML mark up
       selectedLocation.textContent = `${data.name}, ${data.sys.country}`;
