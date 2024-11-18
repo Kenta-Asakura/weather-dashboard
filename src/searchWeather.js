@@ -34,11 +34,12 @@ async function fetchCitiesData() {
 fetchCitiesData();
 
 function findMatches(wordToMatch, cities) {
+  const trimmedWord = wordToMatch.trim();
+  if (!trimmedWord) return [];
+  const regex = new RegExp(trimmedWord, "i");
+
   return cities.filter((city) => {
-    const cityName = city.name;
-    const stateName = city.state_name;
-    const regex = new RegExp(wordToMatch, "gi");
-    return cityName.match(regex) || stateName.match(regex);
+    return city.name.match(regex) || city.state_name.match(regex);
   });
 }
 
@@ -51,20 +52,22 @@ function displayMatches() {
   // console.log(citiesMatch);
   clearInnerHTML(displayedList);
 
-  citiesMatch.forEach(city => {
-    const li = document.createElement("li");
-    li.className = 'location-search__bottom-results-item';
-    li.textContent = `${city.name}, ${city.state_name} ${city.country_code}`;
-    li.setAttribute("data-lat", city.latitude);
-    li.setAttribute("data-long", city.longitude);
-    displayedList.appendChild(li);
-  });
+  if (citiesMatch.length) {
+    citiesMatch.forEach(city => {
+      const li = document.createElement("li");
+      li.className = 'location-search__bottom-results-item';
+      li.textContent = `${city.name}, ${city.state_name} ${city.country_code}`;
+      li.setAttribute("data-lat", city.latitude);
+      li.setAttribute("data-long", city.longitude);
+      displayedList.appendChild(li);
+    });
+  }
 
   displayedList.addEventListener('click', (e) => {
     const location = e.target.closest('.location-search__bottom-results-item');
 
     if (location) {
-      const name = location.dataset.name;
+      // const name = location.dataset.name;
       const lat = location.dataset.lat;
       const lon = location.dataset.long;
       // console.log(lat, lon);
