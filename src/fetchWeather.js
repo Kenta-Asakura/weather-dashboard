@@ -20,7 +20,7 @@ export function fetchAndUpdateWeatherData(lat, lon) {
       // console.log(data);
 
       // Extract data to HTML mark up
-      selectedLocation.textContent = `${data.name}, ${data.sys.country}`;
+      selectedLocation.innerHTML = `${data.name}, ${data.sys.country} <span class='caret'></span>`;
       currentWeatherCity.textContent = data.name;
       currentWeatherTemp.textContent = `${Math.round(data.main.temp)}°`;
       currentWeatherCondition.textContent = data.weather[0].main;
@@ -55,13 +55,16 @@ export function fetchAndUpdateWeatherData(lat, lon) {
 // TEST
 // searchCityCoords('Manila');
 
+document.addEventListener('DOMContentLoaded', () => {
+  getCurrentLocationCoords();
+});
+
 function getCurrentLocationCoords() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(position => {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
       // console.log(fetchAndUpdateWeatherData(latitude, longitude));
-
       fetchAndUpdateWeatherData(latitude, longitude)
     }, error => {
       console.error('Error getting geolocation:', error);
@@ -70,4 +73,3 @@ function getCurrentLocationCoords() {
     console.error('Geolocation is not supported by this browser.');
   }
 };
-getCurrentLocationCoords();

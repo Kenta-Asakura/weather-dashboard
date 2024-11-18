@@ -11,17 +11,17 @@ header {
     align-items: center;
     border-bottom: var.$border-gray;
 
-    &::after {
-      content: "";
-      display: inline-block;
-      width: 8px;
-      height: 8px;
-      border-left: 1.5px solid white;
-      border-top: 1.5px solid white;
-      transform: rotate(225deg);
-      margin-left: 5px;
-      margin-bottom: 3px;
-    }
+    // &::after {
+    //   content: "";
+    //   display: inline-block;
+    //   width: 8px;
+    //   height: 8px;
+    //   border-left: 1.5px solid white;
+    //   border-top: 1.5px solid white;
+    //   transform: rotate(225deg);
+    //   margin-left: 5px;
+    //   margin-bottom: 3px;
+    // }
 
     &__location-btn {
       font-size: 16px;
@@ -29,6 +29,25 @@ header {
       background-color: transparent;
       border: none;
       cursor: pointer;
+
+      &:hover {
+        .caret::after {
+          transform: rotate(45deg) translate(3px, 2px);
+        }
+      }
+      .caret::after {
+          content: "";
+          position: relative;
+          display: inline-block;
+          width: 8px;
+          height: 8px;
+          border-left: 1.5px solid white;
+          border-top: 1.5px solid white;
+          transform: rotate(225deg);
+          margin-left: 5px;
+          margin-bottom: 3px;
+          transition: all .3s ease-in-out;
+      }
     }
   }
 
@@ -155,8 +174,7 @@ header {
 
         &-item {
           font-size: 14px;
-          padding: 8px 20px;
-          padding-block: 8px;
+          padding: 12px 20px;
           border-bottom: var.$border-gray;
 
           &:hover { cursor: pointer;}
