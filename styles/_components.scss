@@ -133,6 +133,10 @@ header {
         box-shadow: none;
         color: var.$storm-gray;
         font-size: 14px;
+        // overwrite input autofill
+        transition:
+          color calc(infinity * 1s) step-end,
+          background-color calc(infinity * 1s) step-end;
 
         &::placeholder {
         }
@@ -141,6 +145,14 @@ header {
         }
         &:focus, &:focus-visible {
           outline: none;
+          background: black;
+        }
+
+        // Debug
+        &:autofill,
+        &:-webkit-autofill,
+        &:-internal-autofill-selected  {
+          background-color: var.$night-black;
         }
       }
 
