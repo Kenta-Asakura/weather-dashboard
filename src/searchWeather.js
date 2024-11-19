@@ -49,7 +49,7 @@ const clearInputValue = (e) => e.value = '';
 function displayMatches() {
   const searchInputValue = searchInput.value;
   const citiesMatch = findMatches(searchInputValue, cities);
-  // console.log(citiesMatch);
+  console.log(citiesMatch);
   clearInnerHTML(displayedList);
 
   if (citiesMatch.length) {
@@ -70,15 +70,10 @@ function displayMatches() {
     const location = e.target.closest('.location-search__bottom-results-item');
 
     if (location) {
-      // const name = location.dataset.name;
-      const lat = location.dataset.lat;
-      const lon = location.dataset.long;
-      // console.log(lat, lon);
-
       locationSearchPanel.classList.remove('location-search--visible');
       clearInnerHTML(displayedList);
       clearInputValue(searchInput);
-      fetchAndUpdateWeatherData(lat, lon);
+      fetchAndUpdateWeatherData(location.dataset.lat, location.dataset.long);
     };
   });
 }

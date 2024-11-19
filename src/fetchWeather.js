@@ -8,6 +8,7 @@ const currentWeatherTempHi = currentWeather.querySelector('.current-weather__tem
 const currentWeatherTempLo = currentWeather.querySelector('.current-weather__temperature-range__low');
 // Search panel
 const searchCurrentCity = document.querySelector('.location-search__top-current-location');
+const searchCurrentCitySub = document.querySelector('.location-search__top-current-location__sub');
 const searchCurrentWeather = document.querySelector('.location-search__top-current-temperature');
 
 
