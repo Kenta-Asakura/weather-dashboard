@@ -2,7 +2,11 @@
 @use "breakpoints" as bp;
 
 header {
-  height: var.$header-height-mobile;
+  height: var.$header-height;
+
+  @include bp.respond-to(mobile-devices) {
+    height: var.$header-height-mobile;
+  }
 
   .main-nav {
     height: 100%;
@@ -24,11 +28,15 @@ header {
     // }
 
     &__location-btn {
-      font-size: 16px;
+      font-size: 20px;
       color: white;
       background-color: transparent;
       border: none;
       cursor: pointer;
+
+      @include bp.respond-to(mobile-devices) {
+        font-size: 16px;
+      }
 
       &:hover {
         .caret::after {
@@ -59,17 +67,11 @@ header {
     height: 100%;
     background-color: var.$raisin-black;
     overflow: hidden;
-    // max-height: 0;
     visibility: hidden;
     opacity: 0;
     transition: max-height var.$transition, visibility var.$transition, opacity var.$transition;
 
-    // TEST
-    // opacity: 1;
-    // visibility: visible;
-
     &--visible {
-      // max-height: 100%;
       visibility: visible;
       opacity: 1;
     }
@@ -97,8 +99,6 @@ header {
 
       &-close-btn {
         position: relative;
-        // right: 0;
-
         height: 20px;
         background: transparent;
         border: none;
@@ -150,7 +150,6 @@ header {
           background: black;
         }
 
-        // Debug
         &:autofill,
         &:-webkit-autofill,
         &:-internal-autofill-selected  {
@@ -208,25 +207,44 @@ main {
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: calc(100vh - var.$header-height-mobile);
+      height: calc(100vh - var.$header-height);
+
+      @include bp.respond-to(mobile-devices) {
+        height: calc(100vh - var.$header-height-mobile);
+      }
     }
 
     &__city {
-      font-size: 24px;
+      font-size: 38px;
       font-weight: 400;
+
+      @include bp.respond-to(mobile-devices) {
+        font-size: 24px;
+      }
     }
 
     &__temperature {
-      font-size: 64px;
+      font-size: 72px;
       font-weight: 400;
+
+      @include bp.respond-to(mobile-devices) {
+        font-size: 64px;
+      }
+    }
+
+    &__condition ,
+    &__temperature-range {
+      font-size: 24px;
+
+      @include bp.respond-to(mobile-devices) {
+        font-size: 20px;
+      }
     }
 
     &__condition {
-      font-size: 20px;
     }
 
     &__temperature-range {
-      font-size: 20px;
       display: flex;
       gap: 0 16px;
       margin-top: 2px;

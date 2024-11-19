@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "main": "webpack.config.js",
   "scripts": {
-    "build": "webpack --mode production",
-    "dev": "webpack serve --mode development --hot"
+    "dev": "webpack serve --config webpack.dev.js",
+    "build": "webpack --config webpack.prod.js"
   },
   "keywords": [],
   "author": "",
@@ -21,7 +21,8 @@
     "sass-loader": "^16.0.2",
     "webpack": "^5.95.0",
     "webpack-cli": "^5.1.4",
-    "webpack-dev-server": "^5.1.0"
+    "webpack-dev-server": "^5.1.0",
+    "webpack-merge": "^6.0.1"
   },
   "dependencies": {
     "acorn": "^8.13.0",
@@ -105,7 +106,6 @@
     "update-browserslist-db": "^1.1.1",
     "uri-js": "^4.4.1",
     "watchpack": "^2.4.2",
-    "webpack-merge": "^5.10.0",
     "webpack-sources": "^3.2.3",
     "which": "^2.0.2",
     "wildcard": "^2.0.1"
