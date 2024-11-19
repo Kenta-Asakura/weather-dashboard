@@ -25,7 +25,6 @@ async function fetchCitiesData() {
   try {
     const response = await fetch(cititesEndPoint);
     const data = await response.json();
-    console.log(data);
     cities = data;
   } catch (error) {
     console.error('error');
@@ -49,7 +48,6 @@ const clearInputValue = (e) => e.value = '';
 function displayMatches() {
   const searchInputValue = searchInput.value;
   const citiesMatch = findMatches(searchInputValue, cities);
-  console.log(citiesMatch);
   clearInnerHTML(displayedList);
 
   if (citiesMatch.length) {

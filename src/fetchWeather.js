@@ -9,7 +9,7 @@ const currentWeatherTempLo = currentWeather.querySelector('.current-weather__tem
 
 // Search panel
 const searchCurrentCity = document.querySelector('.location-search__top-current-location');
-const searchCurrentCitySub = document.querySelector('.location-search__top-current-location__sub');
+// const searchCurrentCitySub = document.querySelector('.location-search__top-current-location__sub');
 const searchCurrentWeather = document.querySelector('.location-search__top-current-temperature');
 
 
@@ -19,8 +19,6 @@ export function fetchAndUpdateWeatherData(lat, lon) {
   fetch(url)
     .then(response => response.json())
     .then(data => {
-      // console.log(data);
-
       // Extract data to HTML mark up
       selectedLocation.innerHTML = `${data.name}, ${data.sys.country} <span class='caret'></span>`;
       currentWeatherCity.textContent = data.name;
@@ -66,7 +64,6 @@ function getCurrentLocationCoords() {
     navigator.geolocation.getCurrentPosition(position => {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
-      // console.log(fetchAndUpdateWeatherData(latitude, longitude));
       fetchAndUpdateWeatherData(latitude, longitude)
     }, error => {
       console.error('Error getting geolocation:', error);
