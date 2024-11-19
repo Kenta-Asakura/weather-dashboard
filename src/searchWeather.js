@@ -53,14 +53,17 @@ function displayMatches() {
   clearInnerHTML(displayedList);
 
   if (citiesMatch.length) {
+    const fragment = document.createDocumentFragment();
+
     citiesMatch.forEach(city => {
       const li = document.createElement("li");
       li.className = 'location-search__bottom-results-item';
       li.textContent = `${city.name}, ${city.state_name} ${city.country_code}`;
       li.setAttribute("data-lat", city.latitude);
       li.setAttribute("data-long", city.longitude);
-      displayedList.appendChild(li);
+      fragment.appendChild(li);
     });
+    displayedList.appendChild(fragment);
   }
 
   displayedList.addEventListener('click', (e) => {
