@@ -17,6 +17,7 @@ export function fetchAndUpdateWeatherData(lat, lon) {
   const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
   fetch(url)
+      // console.log(fetchAndUpdateWeatherData(latitude, longitude));
     .then(response => response.json())
     .then(data => {
       // Extract data to HTML mark up
