@@ -51,17 +51,66 @@ function displayMatches() {
   clearInnerHTML(displayedList);
 
   if (citiesMatch.length) {
-    const fragment = document.createDocumentFragment();
+    // const fragment = document.createDocumentFragment();
 
-    citiesMatch.forEach(city => {
-      const li = document.createElement("li");
-      li.className = 'location-search__bottom-results-item';
-      li.textContent = `${city.name}, ${city.state_name} ${city.country_code}`;
-      li.setAttribute("data-lat", city.latitude);
-      li.setAttribute("data-long", city.longitude);
-      fragment.appendChild(li);
+    // citiesMatch.forEach(city => {
+    //   const li = document.createElement("li");
+    //   li.className = 'location-search__bottom-results-item';
+    //   li.textContent = `${city.name}, ${city.state_name} ${city.country_code}`;
+    //   li.setAttribute("data-lat", city.latitude);
+    //   li.setAttribute("data-long", city.longitude);
+    //   fragment.appendChild(li);
+    // });
+    // displayedList.appendChild(fragment);
+
+     // TEST
+    let currentBatchIndex = 0;
+    const matchesBatch = 20;
+    const initialCityMatches = citiesMatch.slice(0, matchesBatch);
+
+    function renderBatch(cities) {
+      const fragment = document.createDocumentFragment();
+      cities.forEach(city => {
+        const li = document.createElement("li");
+        li.className = 'location-search__bottom-results-item';
+        li.textContent = `${city.name}, ${city.state_name} ${city.country_code}`;
+        li.setAttribute("data-lat", city.latitude);
+        li.setAttribute("data-long", city.longitude);
+        fragment.appendChild(li);
+      });
+
+      displayedList.appendChild(fragment);
+    };
+
+    renderBatch(initialCityMatches);
+    currentBatchIndex += matchesBatch;
+
+    const observer = new IntersectionObserver ((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const city = entry.target;
+          // console.log(`Observed city: ${city.textContent}`);
+          observer.unobserve(city);
+
+          const nextBatch = citiesMatch.slice(currentBatchIndex, currentBatchIndex + matchesBatch);
+          renderBatch(nextBatch); // Render the next batch of cities
+          currentBatchIndex += matchesBatch; // Update the currentBatchIndex
+
+          const lastCity = displayedList.lastChild;
+          // console.log('lastCity', lastCity);
+
+          if (lastCity) {
+            observer.observe(lastCity);
+          };
+        }
+      });
     });
-    displayedList.appendChild(fragment);
+
+    const items = document.querySelectorAll('.location-search__bottom-results-item');
+    items.forEach(element => {
+      observer.observe(element);
+    });
+    // end of TEST
   }
 
   displayedList.addEventListener('click', (e) => {
