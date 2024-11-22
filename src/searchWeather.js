@@ -2,9 +2,9 @@ import { showElement, hideElement, debounce } from "./utils.js";
 import { fetchAndUpdateWeatherData } from "./fetchWeather.js";
 
 // APIs
-const apiKey = process.env.ACCUWEATHER_API_KEY;
+// const apiKey = process.env.ACCUWEATHER_API_KEY;
 const cititesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/cities.json";
-const statesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/states.json";
+// const statesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/states.json";
 
 // Queries
 const locationSearchPanel = document.querySelector(".location-search");
