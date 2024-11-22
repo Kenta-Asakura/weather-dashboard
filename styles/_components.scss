@@ -98,9 +98,9 @@ header {
 
       &-header {
         margin: 0 auto;
-        font-size: 16px;
+        font-size: 20px;
 
-        @include bp.respond-to(mobile) {
+        @include bp.respond-to(mobile-devices) {
           font-size: 14px;
         }
       }
@@ -167,13 +167,29 @@ header {
 
       &-current {
         display: flex;
+        align-items: center;
         justify-content: space-between;
         margin-block: 24px;
-        font-size: 18px;
+        font-size: 24px;
+        @include bp.respond-to(mobile-devices) {
+          font-size: 18px;
+        }
+
+        &-left {
+        }
+        &-right {
+          display: flex;
+          align-items: center;
+          column-gap: 5px;
+        }
+
+        &-icon {
+          height: 60px;
+          @include bp.respond-to(mobile-devices) {
+            height: 50px;
+          }
+        }
       }
-      &-current-left {
-      }
-      &-current-right {}
 
       &-results {
         &-list {}
@@ -196,9 +212,13 @@ header {
         }
 
         &-item {
-          font-size: 14px;
+          font-size: 16px;
           padding: 12px 20px;
           border-bottom: var.$border-gray;
+
+          @include bp.respond-to(mobile-devices) {
+            font-size: 14px;
+          }
 
           &:hover { cursor: pointer;}
         }

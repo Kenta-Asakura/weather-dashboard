@@ -13,6 +13,7 @@ const currentWeatherTempLo = currentWeather.querySelector('.current-weather__tem
 const searchCityElement = document.querySelector('.location-search__top-current-location');
 // const searchCitySubElement = document.querySelector('.location- search__top-current-location__sub');
 const searchCurrentWeather = document.querySelector('.location-search__top-current-temperature');
+const searchCurrentWeatherIcon = document.querySelector('.location-search__top-current-icon');
 
 
 export function fetchAndUpdateWeatherData(lat, lon) {
@@ -23,6 +24,10 @@ export function fetchAndUpdateWeatherData(lat, lon) {
     .then(response => response.json())
     .then(data => {
       // Extract data to HTML mark up
+      // console.log(data);
+
+      const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}.png`
+
       currentLocation.innerHTML = `${data.name}, ${data.sys.country} <span class='caret'></span>`;
       currentWeatherCity.textContent = data.name;
       currentWeatherTemp.textContent = `${Math.round(data.main.temp)}°`;
@@ -32,8 +37,8 @@ export function fetchAndUpdateWeatherData(lat, lon) {
 
       // Extract data to search panel HTML mark up
       searchCityElement.textContent = data.name;
+      searchCurrentWeatherIcon.src = iconUrl;
       searchCurrentWeather.textContent = `${Math.round(data.main.temp)}°`;
-      currentWeatherCondition.textContent = data.weather[0].main;
     })
     .catch(error => console.error('Error fetching the data:', error));
 };
