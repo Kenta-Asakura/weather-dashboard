@@ -1,12 +1,12 @@
 // Fonts
-// chakra petch
-// russo one
+$font-primary: "Russo One", sans-serif;
+$font-secondary: "Chakra Petch", serif;
+
 
 // Colors
-
-$primary-color: red;
-$secondary-color: orange;
-$tertiary-color: yellow;
+$color-primary: red;
+$color-secondary: orange;
+$color-tertiary: yellow;
 
 $rain-blue: #5AC8FA;
 $sky-blue: #007AFF;
@@ -26,12 +26,11 @@ $black: #000;
 
 
 // Components
-
 $header-height: 60px;
 $header-height-mobile: 50px;
 
 $border-gray: 1px solid $davy-gray;
 
-// Animations
 
+// Animations
 $transition: .3s ease-in-out;

@@ -23,13 +23,14 @@ body {
     box-sizing: border-box;
     // padding: 3rem;
     overflow-x: hidden;
+    font-family: var.$font-secondary;
 
     @include bp.respond-to(mobile-devices) {
         padding: 0;
     }
 }
 
-::selection {
-    // background-color: $color-primary;
-    // color: $color-white;
+// Headings
+h1, h2, h3, h4, h5, h6 {
+  font-family: var.$font-primary;
 }

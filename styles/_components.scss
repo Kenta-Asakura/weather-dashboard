@@ -227,11 +227,11 @@ main {
     }
 
     &__temperature {
-      font-size: 72px;
+      font-size: 56px;
       font-weight: 400;
 
       @include bp.respond-to(mobile-devices) {
-        font-size: 64px;
+        font-size: 48px;
       }
     }
 
@@ -262,8 +262,5 @@ main {
   .days-forecast {}
 }
 
-footer {
-  p {
-    color: var.$primary-color;
-  }
-}
+// footer {
+// }
