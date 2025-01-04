@@ -5,9 +5,9 @@ const currentWeatherElements = {
   location: document.querySelector('.main-nav__location-btn'),
   city : currentWeather.querySelector('.current-weather__city'),
   temp : currentWeather.querySelector('.current-weather__temperature'),
-  condition : currentWeather.querySelector('.current-weather__condition'),
-  TempHi : currentWeather.querySelector('.current-weather__temperature-range__high'),
-  TempLo : currentWeather.querySelector('.current-weather__temperature-range__low')
+condition : currentWeather.querySelector('.current-weather__condition'),
+  tempHi : currentWeather.querySelector('.current-weather__temperature-range__high'),
+  tempLo : currentWeather.querySelector('.current-weather__temperature-range__low')
 };
 
 // Search panel elements
@@ -28,8 +28,12 @@ export function fetchAndUpdateWeatherData(lat, lon) {
       // console.log(fetchAndUpdateWeatherData(latitude, longitude));
     .then(response => response.json())
     .then(data => {
-      // Extract data to HTML mark up
       // console.log(data);
+      // console.log(data.name);
+      // console.log(typeof data.name);
+
+      // console.log(data.main.temp_max);
+      // console.log(Math.round(data.main.temp_max));
 
       const { location, city, temp, condition, tempHi, tempLo } = currentWeatherElements;
       const iconUrl = `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`;
