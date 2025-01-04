@@ -16,9 +16,13 @@ const searchCurrentWeather = document.querySelector('.location-search__top-curre
 const searchCurrentWeatherIcon = document.querySelector('.location-search__top-current-icon-desktop');
 const searchCurrentWeatherIconMobile = document.querySelector('.location-search__top-current-icon-mobile');
 
+// Helper functions
+function buildWeatherApiUrl(lat, lon) {
+  return `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+}
 
 export function fetchAndUpdateWeatherData(lat, lon) {
-  const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+  const url = buildWeatherApiUrl(lat, lon);
 
   fetch(url)
       // console.log(fetchAndUpdateWeatherData(latitude, longitude));
