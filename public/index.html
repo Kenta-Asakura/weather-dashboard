@@ -40,8 +40,10 @@
             </div>
 
             <div class="location-search__top-current-right">
-              <!-- <svg class="location-search__current-weather-icon"></svg> -->
-              <img class="location-search__top-current-icon"></img>
+              <picture class="location-search__top-current-icon">
+                <source class="location-search__top-current-icon-mobile" media="(max-width: 768px)">
+                <img class="location-search__top-current-icon-desktop">
+              </picture>
               <span class="location-search__top-current-temperature"></span>
             </div>
           </div>

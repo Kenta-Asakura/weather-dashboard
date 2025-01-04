@@ -184,10 +184,22 @@ header {
         }
 
         &-icon {
-          height: 60px;
-          @include bp.respond-to(mobile-devices) {
-            height: 50px;
+          display: block;
+          width: 100%;
+          max-width: 100%;
+          // height: 60px;
+          // @include bp.respond-to(mobile-devices) {
+          //   height: 50px;
+          // }
+
+          img,
+          source {
+            display: inline-block;
+            width: 100%;
           }
+
+          source {}
+          height: 50px;
         }
       }
 
