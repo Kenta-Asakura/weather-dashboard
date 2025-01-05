@@ -1,5 +1,9 @@
 const apiKey = process.env.ACCUWEATHER_API_KEY;
 
+if (!apiKey) {
+  throw new Error('API key is missing. Please set the ACCUWEATHER_API_KEY environment variable.');
+};
+
 const currentWeather = document.querySelector('.current-weather');
 const currentWeatherElements = {
   location: document.querySelector('.main-nav__location-btn'),
@@ -54,25 +58,30 @@ export function fetchAndUpdateWeatherData(lat, lon) {
   const url = buildWeatherApiUrl(lat, lon);
 
   fetch(url)
-    .then(response => response.json())
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
     .then(data => {
       // console.log(data);
       updateCurrentWeather(data);
       updateSearchWeather(data);
     })
-    .catch(error => console.error('Error fetching the data:', error));
+    .catch(error => {
+      console.error('Error fetching the data:', error)
+      currentWeatherElements.city.textContent = 'Error loading data';
+      currentWeatherElements.temp.textContent = '--';
+    });
 };
-
-document.addEventListener('DOMContentLoaded', () => {
-  fetchCurrentLocationData();
-});
 
 function fetchCurrentLocationData() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(position => {
       const latitude = position.coords.latitude;
       const longitude = position.coords.longitude;
-      fetchAndUpdateWeatherData(latitude, longitude)
+      fetchAndUpdateWeatherData(latitude, longitude);
     }, error => {
       console.error('Error getting geolocation:', error);
     });
@@ -80,3 +89,7 @@ function fetchCurrentLocationData() {
     console.error('Geolocation is not supported by this browser.');
   }
 };
+
+document.addEventListener('DOMContentLoaded', () => {
+  fetchCurrentLocationData();
+});
