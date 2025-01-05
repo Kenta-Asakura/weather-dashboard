@@ -4,21 +4,28 @@ if (!apiKey) {
   throw new Error('API key is missing. Please set the ACCUWEATHER_API_KEY environment variable.');
 };
 
-const currentWeather = document.querySelector('.current-weather');
+function getElement(selector) {
+  const element = document.querySelector(selector);
+  if (!element) {
+    console.warn(`Element not found for selector: ${selector}`);
+  }
+  return element;
+}
+
 const currentWeatherElements = {
-  location: document.querySelector('.main-nav__location-btn'),
-  city : currentWeather.querySelector('.current-weather__city'),
-  temp : currentWeather.querySelector('.current-weather__temperature'),
-  condition : currentWeather.querySelector('.current-weather__condition'),
-  tempHi : currentWeather.querySelector('.current-weather__temperature-range__high'),
-  tempLo : currentWeather.querySelector('.current-weather__temperature-range__low')
+  location: getElement('.main-nav__location-btn'),
+  city : getElement('.current-weather__city'),
+  temp : getElement('.current-weather__temperature'),
+  condition : getElement('.current-weather__condition'),
+  tempHi : getElement('.current-weather__temperature-range__high'),
+  tempLo : getElement('.current-weather__temperature-range__low')
 };
 
 const searchWeatherElements = {
-  city: document.querySelector('.location-search__top-current-location'),
-  temp: document.querySelector('.location-search__top-current-temperature'),
-  icon: document.querySelector('.location-search__top-current-icon-desktop'),
-  iconMobile: document.querySelector('.location-search__top-current-icon-mobile')
+  city: getElement('.location-search__top-current-location'),
+  temp: getElement('.location-search__top-current-temperature'),
+  // icon: getElement('.location-search__top-current-icon-desktop'),
+  // iconMobile: getElement('.location-search__top-current-icon-mobile')
 };
 
 
@@ -46,9 +53,9 @@ function updateSearchWeather(data) {
   const iconMobileUrl = `https://openweathermap.org/img/wn/${weather[0].icon}.png`;
 
   city.textContent = name;
-  icon.src = iconUrl;
-  icon.alt = weather[0].main;;
-  iconMobile.srcset = iconMobileUrl;
+  // icon.src = iconUrl;
+  // icon.alt = weather[0].main;;
+  // iconMobile.srcset = iconMobileUrl;
   temp.textContent = `${Math.round(main.temp)}°`;
 };
 
