@@ -1,4 +1,8 @@
-import { showElement, hideElement, debounce } from "./utils.js";
+import {
+  showElement,
+  hideElement,
+  debounce
+} from "./utils.js";
 import { fetchAndUpdateWeatherData } from "./fetchWeather.js";
 
 // APIs

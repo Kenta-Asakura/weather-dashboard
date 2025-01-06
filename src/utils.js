@@ -1,3 +1,11 @@
+export function getElement(selector) {
+  const element = document.querySelector(selector);
+  if (!element) {
+    console.warn(`Element not found for selector: ${selector}`);
+  }
+  return element;
+}
+
 // Show/Hide toggle an element
 export function showElement(btn, element) {
   btn.addEventListener('click', () => {
@@ -14,7 +22,7 @@ export function hideElement(closeBtn, element) {
 }
 
 
-// 
+//
 export function debounce(cb, delay = 300) {
   let timeout;
 

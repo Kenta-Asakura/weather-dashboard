@@ -1,16 +1,10 @@
+import { getElement } from "./utils";
+
 const apiKey = process.env.ACCUWEATHER_API_KEY;
 
 if (!apiKey) {
   throw new Error('API key is missing. Please set the ACCUWEATHER_API_KEY environment variable.');
 };
-
-function getElement(selector) {
-  const element = document.querySelector(selector);
-  if (!element) {
-    console.warn(`Element not found for selector: ${selector}`);
-  }
-  return element;
-}
 
 const currentWeatherElements = {
   location: getElement('.main-nav__location-btn'),
