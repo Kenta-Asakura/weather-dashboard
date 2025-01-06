@@ -1,6 +1,7 @@
 import {
   showElement,
   hideElement,
+  getElement,
   debounce
 } from "./utils.js";
 import { fetchAndUpdateWeatherData } from "./fetchWeather.js";
@@ -11,11 +12,11 @@ const cititesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-state
 // const statesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/states.json";
 
 // Queries
-const locationSearchPanel = document.querySelector(".location-search");
-const showLocationSearchBtn = document.querySelector(".main-nav__location-btn");
-const hideLocationSearchBtn = document.querySelector(".location-search__top-close-btn");
-const searchInput = document.querySelector("#location-input");
-const displayedList = document.querySelector(".location-search__bottom-results-list");
+const locationSearchPanel = getElement(".location-search");
+const showLocationSearchBtn = getElement(".main-nav__location-btn");
+const hideLocationSearchBtn = getElement(".location-search__top-close-btn");
+const searchInput = getElement("#location-input");
+const displayedList = getElement(".location-search__bottom-results-list");
 
 showElement(showLocationSearchBtn, locationSearchPanel);
 hideElement(hideLocationSearchBtn, locationSearchPanel);
@@ -67,7 +68,6 @@ function displayMatches() {
     // });
     // displayedList.appendChild(fragment);
 
-     // TEST
     let currentBatchIndex = 0;
     const matchesBatch = 20;
     const initialCityMatches = citiesMatch.slice(0, matchesBatch);

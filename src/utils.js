@@ -21,7 +21,6 @@ export function hideElement(closeBtn, element) {
   });
 }
 
-
 //
 export function debounce(cb, delay = 300) {
   let timeout;

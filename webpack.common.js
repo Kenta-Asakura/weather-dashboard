@@ -21,7 +21,11 @@ module.exports = {
     rules: [
       {
         test: /\.scss$/i,
-        use: ['style-loader', 'css-loader', 'sass-loader'], // Default for dev, overridden in prod.
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ], // Default for dev, overridden in prod.
       },
     ],
   },

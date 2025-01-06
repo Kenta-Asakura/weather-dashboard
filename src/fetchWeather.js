@@ -29,7 +29,7 @@ function buildWeatherApiUrl(lat, lon) {
 };
 
 function updateCurrentWeather(data) {
-  const { name, sys, main, weather } = data;
+  const { name, sys, main, weather  } = data;
   const { location, city, temp, condition, tempHi, tempLo } = currentWeatherElements;
 
   location.innerHTML = `${name}, ${sys.country} <span class='caret'></span>`;
