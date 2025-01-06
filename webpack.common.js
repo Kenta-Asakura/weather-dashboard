@@ -20,6 +20,11 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.tsx?$/, // Match TypeScript files
+        use: 'ts-loader', // Use ts-loader for TypeScript
+        exclude: /node_modules/,
+      },
+      {
         test: /\.scss$/i,
         use: [
           'style-loader',
@@ -36,5 +41,10 @@ module.exports = {
       crypto: false,
       os: false,
     },
+    extensions: [
+      '.tsx',
+       '.ts',
+      '.js'
+    ], // Resolve TypeScript files
   },
 };

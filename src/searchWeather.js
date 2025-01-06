@@ -4,7 +4,7 @@ import {
   getElement,
   debounce
 } from "./utils.js";
-import { fetchAndUpdateWeatherData } from "./fetchWeather.js";
+import { fetchAndUpdateWeatherData } from "./fetchWeather.ts";
 
 // APIs
 // const apiKey = process.env.ACCUWEATHER_API_KEY;
