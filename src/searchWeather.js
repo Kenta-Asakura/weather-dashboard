@@ -3,11 +3,10 @@ import {
   hideElement,
   getElement,
   debounce
-} from "./utils.js";
+} from "./utils.ts";
 import { fetchAndUpdateWeatherData } from "./fetchWeather.ts";
 
 // APIs
-// const apiKey = process.env.ACCUWEATHER_API_KEY;
 const cititesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/cities.json";
 // const statesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/states.json";
 
@@ -17,6 +16,9 @@ const showLocationSearchBtn = getElement(".main-nav__location-btn");
 const hideLocationSearchBtn = getElement(".location-search__top-close-btn");
 const searchInput = getElement("#location-input");
 const displayedList = getElement(".location-search__bottom-results-list");
+
+// TEST
+console.log(typeof showLocationSearchBtn);
 
 showElement(showLocationSearchBtn, locationSearchPanel);
 hideElement(hideLocationSearchBtn, locationSearchPanel);

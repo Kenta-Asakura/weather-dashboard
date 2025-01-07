@@ -24,7 +24,7 @@ const searchWeatherElements = {
 
 
 // Helper functions
-function buildWeatherApiUrl(lat: number, lon: number) {
+function buildWeatherApiUrl(lat: number, lon: number): string {
   return `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 };
 
@@ -91,7 +91,7 @@ export function fetchAndUpdateWeatherData(lat: number, lon: number): void {
     });
 };
 
-function fetchCurrentLocationData() {
+function fetchCurrentLocationData(): void {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(position => {
       const latitude = position.coords.latitude;
