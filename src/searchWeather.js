@@ -4,15 +4,18 @@ import {
   clearInputValue,
   showElement,
   hideElement,
-  debounce
+  debounce,
+  findMatches
 } from "./utils.ts";
 import { fetchAndUpdateWeatherData } from "./fetchWeather.ts";
 
-// APIs
-const cititesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/cities.json";
+
+// API Endpoint
+const citiesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/cities.json";
 // const statesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/states.json";
 
-// Queries
+
+// DOM Elements
 const locationSearchPanel = getElement(".location-search");
 const showLocationSearchBtn = getElement(".main-nav__location-btn");
 const hideLocationSearchBtn = getElement(".location-search__top-close-btn");
@@ -22,14 +25,13 @@ const displayedList = getElement(".location-search__bottom-results-list");
 showElement(showLocationSearchBtn, locationSearchPanel);
 hideElement(hideLocationSearchBtn, locationSearchPanel);
 
-const debouncedDisplayMatches = debounce(displayMatches, 500);
-searchInput.addEventListener('input', debouncedDisplayMatches);
+searchInput.addEventListener('input', debounce(displayMatches, 500));
 
 let cities = [];
 
 async function fetchCitiesData() {
   try {
-    const response = await fetch(cititesEndPoint);
+    const response = await fetch(citiesEndPoint);
     const data = await response.json();
     cities = data;
   } catch (error) {
@@ -37,16 +39,6 @@ async function fetchCitiesData() {
   }
 };
 fetchCitiesData();
-
-function findMatches(wordToMatch, cities) {
-  const trimmedWord = wordToMatch.trim();
-  if (!trimmedWord) return [];
-  const regex = new RegExp(trimmedWord, "i");
-
-  return cities.filter((city) => {
-    return city.name.match(regex) || city.state_name.match(regex);
-  });
-}
 
 function displayMatches() {
   const searchInputValue = searchInput.value;
@@ -101,15 +93,15 @@ function displayMatches() {
       observer.observe(element);
     });
   }
-
-  displayedList.addEventListener('click', (e) => {
-    const location = e.target.closest('.location-search__bottom-results-item');
-
-    if (location) {
-      locationSearchPanel.classList.remove('location-search--visible');
-      clearInnerHTML(displayedList);
-      clearInputValue(searchInput);
-      fetchAndUpdateWeatherData(location.dataset.lat, location.dataset.long);
-    };
-  });
 }
+
+displayedList.addEventListener('click', (e) => {
+  const location = e.target.closest('.location-search__bottom-results-item');
+
+  if (location) {
+    locationSearchPanel.classList.remove('location-search--visible');
+    clearInnerHTML(displayedList);
+    clearInputValue(searchInput);
+    fetchAndUpdateWeatherData(location.dataset.lat, location.dataset.long);
+  };
+});

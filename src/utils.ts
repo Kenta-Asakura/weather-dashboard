@@ -29,6 +29,7 @@ export function hideElement(closeBtn: HTMLElement, element: HTMLElement): void {
   });
 }
 
+
 // Debounce
 // export function debounce(cb, delay = 300) {
 //   let timeout;
@@ -53,4 +54,24 @@ export function debounce<T extends (...args: any[]) => void>(
       cb(...args);
     }, delay);
   };
+}
+
+
+//
+interface City {
+  name: string;
+  state_name: string;
+  country_code: string;
+  latitude: string;
+  longitude: string;
+}
+
+export function findMatches(wordToMatch: string, cities: City[]): City[] {
+  const trimmedWord = wordToMatch.trim();
+  if (!trimmedWord) return [];
+  const regex = new RegExp(trimmedWord, "i");
+
+  return cities.filter((city) => {
+    return city.name.match(regex) || city.state_name.match(regex);
+  });
 }
