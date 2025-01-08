@@ -37,7 +37,6 @@ interface WeatherData {
 
 function updateCurrentWeather(data: WeatherData): void {
   // console.log(data);
-
   const { name, sys, main, weather  } = data;
   const { location, city, temp, condition, tempHi, tempLo } = currentWeatherElements;
 

@@ -17,9 +17,6 @@ const hideLocationSearchBtn = getElement(".location-search__top-close-btn");
 const searchInput = getElement("#location-input");
 const displayedList = getElement(".location-search__bottom-results-list");
 
-// TEST
-console.log(typeof showLocationSearchBtn);
-
 showElement(showLocationSearchBtn, locationSearchPanel);
 hideElement(hideLocationSearchBtn, locationSearchPanel);
 
@@ -58,18 +55,6 @@ function displayMatches() {
   clearInnerHTML(displayedList);
 
   if (citiesMatch.length) {
-    // const fragment = document.createDocumentFragment();
-
-    // citiesMatch.forEach(city => {
-    //   const li = document.createElement("li");
-    //   li.className = 'location-search__bottom-results-item';
-    //   li.textContent = `${city.name}, ${city.state_name} ${city.country_code}`;
-    //   li.setAttribute("data-lat", city.latitude);
-    //   li.setAttribute("data-long", city.longitude);
-    //   fragment.appendChild(li);
-    // });
-    // displayedList.appendChild(fragment);
-
     let currentBatchIndex = 0;
     const matchesBatch = 20;
     const initialCityMatches = citiesMatch.slice(0, matchesBatch);
@@ -116,7 +101,6 @@ function displayMatches() {
     items.forEach(element => {
       observer.observe(element);
     });
-    // end of TEST
   }
 
   displayedList.addEventListener('click', (e) => {
