@@ -1,7 +1,9 @@
 import {
+  getElement,
+  clearInnerHTML,
+  clearInputValue,
   showElement,
   hideElement,
-  getElement,
   debounce
 } from "./utils.ts";
 import { fetchAndUpdateWeatherData } from "./fetchWeather.ts";
@@ -31,7 +33,7 @@ async function fetchCitiesData() {
     const data = await response.json();
     cities = data;
   } catch (error) {
-    console.error('error');
+    console.error('Error fetching cities data:', error);
   }
 };
 fetchCitiesData();
@@ -45,9 +47,6 @@ function findMatches(wordToMatch, cities) {
     return city.name.match(regex) || city.state_name.match(regex);
   });
 }
-
-const clearInnerHTML = (e) => e.innerHTML = '';
-const clearInputValue = (e) => e.value = '';
 
 function displayMatches() {
   const searchInputValue = searchInput.value;

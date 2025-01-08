@@ -6,6 +6,14 @@ export function getElement(selector: string): HTMLElement {
   return element as HTMLElement;
 }
 
+export const clearInnerHTML = (e:HTMLElement): void => {
+  e.innerHTML = '';
+}
+
+export const clearInputValue = (e:HTMLInputElement) => {
+  e.value = '';
+}
+
 // Show/Hide toggle an element
 export function showElement(btn: HTMLElement, element: HTMLElement): void {
   btn.addEventListener('click', () => {
