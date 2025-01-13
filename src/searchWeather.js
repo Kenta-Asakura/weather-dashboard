@@ -45,54 +45,58 @@ function displayMatches() {
   const citiesMatch = findMatches(searchInputValue, cities);
   clearInnerHTML(displayedList);
 
-  if (citiesMatch.length) {
-    let currentBatchIndex = 0;
-    const matchesBatch = 20;
-    const initialCityMatches = citiesMatch.slice(0, matchesBatch);
+  if (citiesMatch.length === 0) return;
 
-    function renderBatch(cities) {
-      const fragment = document.createDocumentFragment();
-      cities.forEach(city => {
-        const li = document.createElement("li");
-        li.className = 'location-search__bottom-results-item';
-        li.textContent = `${city.name}, ${city.state_name} ${city.country_code}`;
-        li.setAttribute("data-lat", city.latitude);
-        li.setAttribute("data-long", city.longitude);
-        fragment.appendChild(li);
-      });
+  const matchesBatch = 20;
+  let currentBatchIndex = 0;
 
-      displayedList.appendChild(fragment);
-    };
-
-    renderBatch(initialCityMatches);
-    currentBatchIndex += matchesBatch;
-
-    const observer = new IntersectionObserver ((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const city = entry.target;
-          // console.log(`Observed city: ${city.textContent}`);
-          observer.unobserve(city);
-
-          const nextBatch = citiesMatch.slice(currentBatchIndex, currentBatchIndex + matchesBatch);
-          renderBatch(nextBatch); // Render the next batch of cities
-          currentBatchIndex += matchesBatch; // Update the currentBatchIndex
-
-          const lastCity = displayedList.lastChild;
-          // console.log('lastCity', lastCity);
-
-          if (lastCity) {
-            observer.observe(lastCity);
-          };
-        }
-      });
+  const renderBatch = (batch) => {
+    const fragment = document.createDocumentFragment();
+    batch.forEach(city => {
+      const cityElement = createCityElement(city);
+      fragment.appendChild(cityElement);
     });
+    displayedList.appendChild(fragment);
+  };
 
-    const items = document.querySelectorAll('.location-search__bottom-results-item');
-    items.forEach(element => {
-      observer.observe(element);
+  const createCityElement = (city) => {
+    const li = document.createElement("li");
+    li.className = "location-search__bottom-results-item";
+    li.textContent = `${city.name}, ${city.state_name} ${city.country_code}`;
+    li.dataset.lat = city.latitude;
+    li.dataset.long = city.longitude;
+    return li;
+  };
+
+  const initialCityMatches = citiesMatch.slice(0, matchesBatch);
+  renderBatch(initialCityMatches);
+  currentBatchIndex += matchesBatch;
+
+  const observer = new IntersectionObserver ((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const city = entry.target;
+        // console.log(`Observed city: ${city.textContent}`);
+        observer.unobserve(city);
+
+        const nextBatch = citiesMatch.slice(currentBatchIndex, currentBatchIndex + matchesBatch);
+        renderBatch(nextBatch); // Render the next batch of cities
+        currentBatchIndex += matchesBatch; // Update the currentBatchIndex
+
+        const lastCity = displayedList.lastChild;
+        // console.log('lastCity', lastCity);
+
+        if (lastCity) {
+          observer.observe(lastCity);
+        };
+      }
     });
-  }
+  });
+
+  const items = document.querySelectorAll('.location-search__bottom-results-item');
+  items.forEach(element => {
+    observer.observe(element);
+  });
 }
 
 displayedList.addEventListener('click', (e) => {
