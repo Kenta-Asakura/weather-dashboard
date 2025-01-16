@@ -57,7 +57,6 @@ export function debounce<T extends (...args: any[]) => void>(
 }
 
 
-//
 interface City {
   name: string;
   state_name: string;
