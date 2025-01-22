@@ -88,7 +88,7 @@ function displayMatches() {
   const observer = new IntersectionObserver ((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        console.log(`Observed city: ${entry.target.textContent}`);
+        // console.log(`Observed city: ${entry.target.textContent}`);
         observer.unobserve(entry.target);
         loadNextBatch();
       }
@@ -101,11 +101,10 @@ function displayMatches() {
 
 displayedList.addEventListener('click', (e) => {
   const location = e.target.closest('.location-search__bottom-results-item');
+  if (!location) return;
 
-  if (location) {
-    locationSearchPanel.classList.remove('location-search--visible');
-    clearInnerHTML(displayedList);
-    clearInputValue(searchInput);
-    fetchAndUpdateWeatherData(location.dataset.lat, location.dataset.long);
-  };
+  locationSearchPanel.classList.remove('location-search--visible');
+  clearInnerHTML(displayedList);
+  clearInputValue(searchInput);
+  fetchAndUpdateWeatherData(location.dataset.lat, location.dataset.long);
 });
