@@ -11,8 +11,8 @@ import { fetchAndUpdateWeatherData } from "./fetchWeather.ts";
 
 
 // API Endpoint
-const citiesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/cities.json";
-// const statesEndPoint = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/states.json";
+const CITIES_END_POINT = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/cities.json";
+// const STATES_END_POINT = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/states.json";
 
 
 // DOM Elements
@@ -31,7 +31,7 @@ let cities = [];
 
 async function fetchCitiesData() {
   try {
-    const response = await fetch(citiesEndPoint);
+    const response = await fetch(CITIES_END_POINT);
     const data = await response.json();
     cities = data;
   } catch (error) {
@@ -55,7 +55,7 @@ function displayMatches() {
   clearInnerHTML(displayedList);
 
   if (citiesMatch.length === 0) return;
-  const matchesBatch = 20;
+  const MATCHES_BATCH_SIZE = 20;
   let currentBatchIndex = 0;
 
   const renderBatch = (batch) => {
@@ -70,20 +70,20 @@ function displayMatches() {
   const loadNextBatch = () => {
     const nextBatch = citiesMatch.slice(
       currentBatchIndex,
-      currentBatchIndex + matchesBatch
+      currentBatchIndex + MATCHES_BATCH_SIZE
     );
 
     if (nextBatch.length === 0) return;
     renderBatch(nextBatch);
-    currentBatchIndex += matchesBatch;
+    currentBatchIndex += MATCHES_BATCH_SIZE;
 
     const lastCity = displayedList.lastChild;
     if (lastCity) observer.observe(lastCity);
   }
 
-  const initialCityMatches = citiesMatch.slice(0, matchesBatch);
+  const initialCityMatches = citiesMatch.slice(0, MATCHES_BATCH_SIZE);
   renderBatch(initialCityMatches);
-  currentBatchIndex += matchesBatch;
+  currentBatchIndex += MATCHES_BATCH_SIZE;
 
   const observer = new IntersectionObserver ((entries) => {
     entries.forEach(entry => {
