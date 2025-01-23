@@ -29,21 +29,29 @@ const locationSearchElements  = {
 showElement(locationSearchElements.buttons.show, locationSearchElements.panel);
 hideElement(locationSearchElements.buttons.hide, locationSearchElements.panel);
 
-locationSearchElements.input.addEventListener('input', debounce(displayMatches, 500));
 
-let cities = [];
-
+// Fetch Cities Data
 async function fetchCitiesData() {
   try {
     const response = await fetch(CITIES_END_POINT);
     const data = await response.json();
-    cities = data;
+    return data;
   } catch (error) {
     console.error('Error fetching cities data:', error);
+    return [];
   }
-};
-fetchCitiesData();
+}
 
+(async () => {
+  const cities = await fetchCitiesData();
+  locationSearchElements.input.addEventListener(
+    "input",
+    debounce(() => displayMatches(cities), 500)
+  );
+})();
+
+
+//
 const createCityElement = (city) => {
   const li = document.createElement("li");
   li.className = "location-search__bottom-results-item";
@@ -53,7 +61,7 @@ const createCityElement = (city) => {
   return li;
 };
 
-function displayMatches() {
+function displayMatches(cities) {
   const searchInputValue = locationSearchElements.input.value.trim();
   const citiesMatch = findMatches(searchInputValue, cities);
   clearInnerHTML(locationSearchElements.resultsList);
