@@ -16,16 +16,20 @@ const CITIES_END_POINT = "https://raw.githubusercontent.com/dr5hn/countries-stat
 
 
 // DOM Elements
-const locationSearchPanel = getElement(".location-search");
-const showLocationSearchBtn = getElement(".main-nav__location-btn");
-const hideLocationSearchBtn = getElement(".location-search__top-close-btn");
-const searchInput = getElement("#location-input");
-const displayedList = getElement(".location-search__bottom-results-list");
+const locationSearchElements  = {
+  panel: getElement(".location-search"),
+  buttons: {
+    show: getElement(".main-nav__location-btn"),
+    hide: getElement(".location-search__top-close-btn"),
+  },
+  input: getElement("#location-input"),
+  resultsList: getElement(".location-search__bottom-results-list"),
+};
 
-showElement(showLocationSearchBtn, locationSearchPanel);
-hideElement(hideLocationSearchBtn, locationSearchPanel);
+showElement(locationSearchElements.buttons.show, locationSearchElements.panel);
+hideElement(locationSearchElements.buttons.hide, locationSearchElements.panel);
 
-searchInput.addEventListener('input', debounce(displayMatches, 500));
+locationSearchElements.input.addEventListener('input', debounce(displayMatches, 500));
 
 let cities = [];
 
@@ -50,9 +54,9 @@ const createCityElement = (city) => {
 };
 
 function displayMatches() {
-  const searchInputValue = searchInput.value.trim();
+  const searchInputValue = locationSearchElements.input.value.trim();
   const citiesMatch = findMatches(searchInputValue, cities);
-  clearInnerHTML(displayedList);
+  clearInnerHTML(locationSearchElements.resultsList);
 
   if (citiesMatch.length === 0) return;
   const MATCHES_BATCH_SIZE = 20;
@@ -64,7 +68,7 @@ function displayMatches() {
       const cityElement = createCityElement(city);
       fragment.appendChild(cityElement);
     });
-    displayedList.appendChild(fragment);
+    locationSearchElements.resultsList.appendChild(fragment);
   };
 
   const loadNextBatch = () => {
@@ -77,7 +81,7 @@ function displayMatches() {
     renderBatch(nextBatch);
     currentBatchIndex += MATCHES_BATCH_SIZE;
 
-    const lastCity = displayedList.lastChild;
+    const lastCity = locationSearchElements.resultsList.lastChild;
     if (lastCity) observer.observe(lastCity);
   }
 
@@ -95,16 +99,16 @@ function displayMatches() {
     });
   });
 
-  const lastCity = displayedList.lastChild;
+  const lastCity = locationSearchElements.resultsList.lastChild;
   if (lastCity) observer.observe(lastCity);
 }
 
-displayedList.addEventListener('click', (e) => {
+locationSearchElements.resultsList.addEventListener('click', (e) => {
   const location = e.target.closest('.location-search__bottom-results-item');
   if (!location) return;
 
-  locationSearchPanel.classList.remove('location-search--visible');
-  clearInnerHTML(displayedList);
-  clearInputValue(searchInput);
+  locationSearchElements.panel.classList.remove('location-search--visible');
+  clearInnerHTML(locationSearchElements.resultsList);
+  clearInputValue(locationSearchElements.input);
   fetchAndUpdateWeatherData(location.dataset.lat, location.dataset.long);
 });
