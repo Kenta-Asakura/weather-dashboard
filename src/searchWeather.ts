@@ -1,124 +1,130 @@
-// import {
-//   getElement,
-//   clearInnerHTML,
-//   clearInputValue,
-//   showElement,
-//   hideElement,
-//   debounce,
-//   City,
-//   findMatches
-// } from "./utils";
-// import { fetchAndUpdateWeatherData } from "./fetchWeather";
+import {
+  getElement,
+  clearInnerHTML,
+  clearInputValue,
+  showElement,
+  hideElement,
+  debounce,
+  City,
+  findMatches
+} from "./utils";
+import { fetchAndUpdateWeatherData } from "./fetchWeather";
 
 
-// // API Endpoint
-// const CITIES_END_POINT: string = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/cities.json";
-// // const STATES_END_POINT: string = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/states.json";
+// API Endpoint
+const CITIES_END_POINT: string = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/cities.json";
+// const STATES_END_POINT: string = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/states.json";
 
 
-// // DOM Elements
-// const locationSearchElements = {
-//   panel: getElement(".location-search"),
-//   buttons: {
-//     show: getElement(".main-nav__location-btn"),
-//     hide: getElement(".location-search__top-close-btn"),
-//   },
-//   input: getElement("#location-input"),
-//   resultsList: getElement(".location-search__bottom-results-list"),
-// };
+// DOM Elements
+const locationSearchElements = {
+  panel: getElement(".location-search"),
+  buttons: {
+    show: getElement(".main-nav__location-btn"),
+    hide: getElement(".location-search__top-close-btn"),
+  },
+  input: getElement<HTMLInputElement>("#location-input"),
+  resultsList: getElement(".location-search__bottom-results-list"),
+};
 
-// showElement(locationSearchElements.buttons.show, locationSearchElements.panel);
-// hideElement(locationSearchElements.buttons.hide, locationSearchElements.panel);
-
-
-// // Fetch Cities Data
-// async function fetchCitiesData() {
-//   try {
-//     const response = await fetch(CITIES_END_POINT);
-//     const data = await response.json();
-//     return data;
-//   } catch (error) {
-//     console.error('Error fetching cities data:', error);
-//     return [];
-//   }
-// }
-
-// (async () => {
-//   const cities = await fetchCitiesData();
-
-//   locationSearchElements.input.addEventListener(
-//     "input",
-//     debounce(() => displayMatches(cities), 500)
-//   );
-// })();
+showElement(locationSearchElements.buttons.show, locationSearchElements.panel);
+hideElement(locationSearchElements.buttons.hide, locationSearchElements.panel);
 
 
-// //
-// const createCityElement = (city: City): HTMLElement => {
-//   const li = document.createElement("li");
-//   li.className = "location-search__bottom-results-item";
-//   li.textContent = `${city.name}, ${city.state_name} ${city.country_code}`;
-//   li.dataset.lat = city.latitude;
-//   li.dataset.long = city.longitude;
-//   return li;
-// };
+// Fetch Cities Data
+async function fetchCitiesData() {
+  try {
+    const response = await fetch(CITIES_END_POINT);
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching cities data:', error);
+    return [];
+  }
+}
 
-// function displayMatches(cities: City[]): void {
-//   const searchInputValue: string = locationSearchElements.input.value.trim();
-//   const citiesMatch = findMatches(searchInputValue, cities);
-//   clearInnerHTML(locationSearchElements.resultsList);
+(async () => {
+  const cities = await fetchCitiesData();
 
-//   if (citiesMatch.length === 0) return;
-//   const MATCHES_BATCH_SIZE = 20;
-//   let currentBatchIndex = 0;
+  locationSearchElements.input.addEventListener(
+    "input",
+    debounce(() => displayMatches(cities), 500)
+  );
+})();
 
-//   const renderBatch = (batch) => {
-//     const fragment = document.createDocumentFragment();
-//     batch.forEach(city => {
-//       const cityElement = createCityElement(city);
-//       fragment.appendChild(cityElement);
-//     });
-//     locationSearchElements.resultsList.appendChild(fragment);
-//   };
 
-//   const loadNextBatch = () => {
-//     const nextBatch = citiesMatch.slice(
-//       currentBatchIndex,
-//       currentBatchIndex + MATCHES_BATCH_SIZE
-//     );
+//
+const createCityElement = (city: City): HTMLElement => {
+  const li = document.createElement("li");
+  li.className = "location-search__bottom-results-item";
+  li.textContent = `${city.name}, ${city.state_name} ${city.country_code}`;
+  li.dataset.lat = city.latitude;
+  li.dataset.long = city.longitude;
+  return li;
+};
 
-//     if (nextBatch.length === 0) return;
-//     renderBatch(nextBatch);
-//     currentBatchIndex += MATCHES_BATCH_SIZE;
+function displayMatches(cities: City[]): void {
+  const searchInputValue: string = locationSearchElements.input.value.trim();
+  const citiesMatch: City[] = findMatches(searchInputValue, cities);
+  clearInnerHTML(locationSearchElements.resultsList);
 
-//     const lastCity = locationSearchElements.resultsList.lastChild;
-//     if (lastCity) observer.observe(lastCity);
-//   }
+  if (citiesMatch.length === 0) return;
+  const MATCHES_BATCH_SIZE = 20;
+  let currentBatchIndex = 0;
 
-//   const initialCityMatches = citiesMatch.slice(0, MATCHES_BATCH_SIZE);
-//   renderBatch(initialCityMatches);
-//   currentBatchIndex += MATCHES_BATCH_SIZE;
+  const renderBatch = (batch: City[]): void => {
+    const fragment = document.createDocumentFragment();
+    batch.forEach((city: City) => {
+      const cityElement = createCityElement(city);
+      fragment.appendChild(cityElement);
+    });
+    locationSearchElements.resultsList.appendChild(fragment);
+  };
 
-//   const observer = new IntersectionObserver ((entries) => {
-//     entries.forEach(entry => {
-//       if (entry.isIntersecting) {
-//         // console.log(`Observed city: ${entry.target.textContent}`);
-//         observer.unobserve(entry.target);
-//         loadNextBatch();
-//       }
-//     });
-//   });
+  const loadNextBatch = (): void => {
+    const nextBatch: City[] = citiesMatch.slice(
+      currentBatchIndex,
+      currentBatchIndex + MATCHES_BATCH_SIZE
+    );
 
-//   const lastCity = locationSearchElements.resultsList.lastChild;
-//   if (lastCity) observer.observe(lastCity);
-// }
+    if (nextBatch.length === 0) return;
+    renderBatch(nextBatch);
+    currentBatchIndex += MATCHES_BATCH_SIZE;
 
-// locationSearchElements.resultsList.addEventListener('click', (e) => {
-//   const location = e.target.closest('.location-search__bottom-results-item');
-//   if (!location) return;
+    const lastCity = locationSearchElements.resultsList.lastChild;
+    if (lastCity) observer.observe(lastCity as Element);
+  }
 
-//   locationSearchElements.panel.classList.remove('location-search--visible');
-//   clearInnerHTML(locationSearchElements.resultsList);
-//   clearInputValue(locationSearchElements.input);
-//   fetchAndUpdateWeatherData(location.dataset.lat, location.dataset.long);
-// });
+  const initialCityMatches: City[] = citiesMatch.slice(0, MATCHES_BATCH_SIZE);
+  renderBatch(initialCityMatches);
+  currentBatchIndex += MATCHES_BATCH_SIZE;
+
+  const observer = new IntersectionObserver ((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        observer.unobserve(entry.target);
+        loadNextBatch();
+      }
+    });
+  });
+
+  const lastCity = locationSearchElements.resultsList.lastChild;
+  if (lastCity) observer.observe(lastCity as Element);
+}
+
+locationSearchElements.resultsList.addEventListener(
+  'click',
+  (e: MouseEvent) => {
+    const target = e.target as HTMLElement | null;
+    const location = target?.closest('.location-search__bottom-results-item') as HTMLElement;
+    if (!(location instanceof HTMLElement)) return;
+
+    locationSearchElements.panel.classList.remove('location-search--visible');
+    clearInnerHTML(locationSearchElements.resultsList);
+    clearInputValue(locationSearchElements.input);
+
+    const lat = location.dataset.lat ? parseFloat(location.dataset.lat) : NaN;
+    const long = location.dataset.long ? parseFloat(location.dataset.long) : NaN;
+    fetchAndUpdateWeatherData(lat, long);
+  }
+);
