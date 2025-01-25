@@ -44,6 +44,8 @@ async function fetchCitiesData() {
 
 (async () => {
   const cities = await fetchCitiesData();
+  // console.log('cities', cities);
+
   locationSearchElements.input.addEventListener(
     "input",
     debounce(() => displayMatches(cities), 500)
@@ -62,7 +64,11 @@ const createCityElement = (city) => {
 };
 
 function displayMatches(cities) {
+  // console.log('cities', cities);
+
   const searchInputValue = locationSearchElements.input.value.trim();
+  console.log('searchInputValue', searchInputValue);
+
   const citiesMatch = findMatches(searchInputValue, cities);
   clearInnerHTML(locationSearchElements.resultsList);
 
@@ -73,6 +79,9 @@ function displayMatches(cities) {
   const renderBatch = (batch) => {
     const fragment = document.createDocumentFragment();
     batch.forEach(city => {
+      // console.log('city', city);
+      // console.log('typeof city', typeof city);
+
       const cityElement = createCityElement(city);
       fragment.appendChild(cityElement);
     });
@@ -91,7 +100,7 @@ function displayMatches(cities) {
 
     const lastCity = locationSearchElements.resultsList.lastChild;
     if (lastCity) observer.observe(lastCity);
-  }
+  };
 
   const initialCityMatches = citiesMatch.slice(0, MATCHES_BATCH_SIZE);
   renderBatch(initialCityMatches);

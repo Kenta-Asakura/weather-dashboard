@@ -1,9 +1,11 @@
-export function getElement(selector: string): HTMLElement {
+// export function getElement(selector: string): HTMLElement {
+export function getElement<T extends HTMLElement = HTMLElement>(selector: string): T {
   const element = document.querySelector(selector);
   if (!element) {
     throw new Error(`Element not found for selector: ${selector}`);
   }
-  return element as HTMLElement;
+  // return element as HTMLElement;
+  return element as T;
 }
 
 export const clearInnerHTML = (e:HTMLElement): void => {
@@ -57,7 +59,7 @@ export function debounce<T extends (...args: any[]) => void>(
 }
 
 
-interface City {
+export interface City {
   name: string;
   state_name: string;
   country_code: string;
