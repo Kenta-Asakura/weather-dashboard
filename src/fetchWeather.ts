@@ -1,9 +1,9 @@
 import { getElement } from "./utils";
 
-const apiKey = process.env.ACCUWEATHER_API_KEY;
+const apiKey = process.env.OPENWEATHER_API_KEY;
 
 if (!apiKey) {
-  throw new Error('API key is missing. Please set the ACCUWEATHER_API_KEY environment variable.');
+  throw new Error('API key is missing. Please set the OPENWEATHER_API_KEY environment variable.');
 };
 
 const currentWeatherElements = {

@@ -59,6 +59,11 @@ export function debounce<T extends (...args: any[]) => void>(
 }
 
 
+// *Create the following types
+// Country
+// State
+
+// * Update this interface
 export interface City {
   name: string;
   state_name: string;
@@ -67,6 +72,7 @@ export interface City {
   longitude: string;
 }
 
+// * Update this to take in Country
 export function findMatches(wordToMatch: string, cities: City[]): City[] {
   const trimmedWord = wordToMatch.trim();
   if (!trimmedWord) return [];
