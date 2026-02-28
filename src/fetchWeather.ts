@@ -1,4 +1,5 @@
 import { getElement } from "./utils";
+import { WeatherApiResponse } from "./types/weather.types";
 
 const apiKey = process.env.OPENWEATHER_API_KEY;
 
@@ -22,20 +23,12 @@ const searchWeatherElements = {
   // iconMobile: getElement('.location-search__top-current-icon-mobile')
 };
 
-
 // Helper functions
 function buildWeatherApiUrl(lat: number, lon: number): string {
   return `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 };
 
-interface WeatherData {
-  name: string;
-  sys: { country: string };
-  main: { temp: number; temp_max: number; temp_min: number };
-  weather: { main: string; icon: string }[];
-}
-
-function updateCurrentWeather(data: WeatherData): void {
+function updateCurrentWeather(data: WeatherApiResponse): void {
   // console.log(data);
   const { name, sys, main, weather  } = data;
   const { location, city, temp, condition, tempHi, tempLo } = currentWeatherElements;
@@ -48,7 +41,7 @@ function updateCurrentWeather(data: WeatherData): void {
   tempLo.textContent = `L:${Math.round(main.temp_min)}°`;
 };
 
-function updateSearchWeather(data: WeatherData): void {
+function updateSearchWeather(data: WeatherApiResponse): void {
   const { name, weather, main } = data;
   const {
     city,

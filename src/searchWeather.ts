@@ -7,6 +7,7 @@ import {
   debounce,
   findMatches
 } from "./utils";
+import { CountryApiResponse, StateApiResponse, CityApiResponse, FlattenedCity } from "./types/location.types";
 import { fetchAndUpdateWeatherData } from "./fetchWeather";
 
 // API Endpoint
@@ -26,48 +27,11 @@ const locationSearchElements = {
 showElement(locationSearchElements.buttons.show, locationSearchElements.panel);
 hideElement(locationSearchElements.buttons.hide, locationSearchElements.panel);
 
-// API response Types
-interface Country {
-  id: number;
-  name: string;
-  iso2: string;            
-  latitude: string;
-  longitude: string;
-  states: State[];         
-}
-
-interface State {
-  id: number;
-  name: string;
-  state_code: string;
-  country_id: number;
-  latitude: string;
-  longitude: string;
-  cities: City[];
-}
-
-interface City {
-  id: number;
-  name: string;
-  latitude: string;
-  longitude: string;
-}
-
-// Transformed data Type
-interface FlattenedCity {
-  name: string;
-  iso?: string;
-  latitude: string;
-  longitude: string;
-  state_name: string;
-  country_code: string;
-}
-
 // Fetch Cities Data
 async function fetchCitiesData(): Promise<FlattenedCity[]> {
   try {
     const response = await fetch(COUNTRIES_STATES_CITIES_END_POINT);
-    const countries: Country[] = await response.json();
+    const countries: CountryApiResponse[] = await response.json();
     return countries.flatMap((country) =>  // gets array of state objects
       country.states.flatMap((state) =>     // gets array of cities objects
         state.cities.map((city) => ({         // gets array of cities

@@ -31,7 +31,6 @@ export function hideElement(closeBtn: HTMLElement, element: HTMLElement): void {
   });
 }
 
-
 // Debounce
 // export function debounce(cb, delay = 300) {
 //   let timeout;
@@ -53,7 +52,7 @@ export function debounce<T extends (...args: any[]) => void>(
   return (...args: Parameters<T>) => {
     clearTimeout(timeout);
     timeout = setTimeout(() => {
-      cb(...args);
+      cb(...args); 
     }, delay);
   };
 }
