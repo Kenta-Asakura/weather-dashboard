@@ -1,4 +1,4 @@
-import { getElement } from "./utils";
+import { getElement } from "./ui/dom";
 import { WeatherApiResponse } from "./types/weather.types";
 
 const apiKey = process.env.OPENWEATHER_API_KEY;

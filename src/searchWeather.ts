@@ -1,14 +1,16 @@
 import {
-  getElement,
-  clearInnerHTML,
-  clearInputValue,
-  showElement,
-  hideElement,
   debounce,
   findMatches
 } from "./utils";
 import { CountryApiResponse, FlattenedCity } from "./types/location.types";
 import { fetchAndUpdateWeatherData } from "./fetchWeather";
+import { 
+  getElement, 
+  clearInnerHTML, 
+  clearInputValue,
+  showElement,
+  hideElement 
+} from "./ui/dom";
 
 // API Endpoint
 const COUNTRIES_STATES_CITIES_END_POINT: string = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/countries%2Bstates%2Bcities.json"
