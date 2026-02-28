@@ -1,3 +1,5 @@
+import { FlattenedCity } from "./types/location.types";
+
 // export function getElement(selector: string): HTMLElement {
 export function getElement<T extends HTMLElement = HTMLElement>(selector: string): T {
   const element = document.querySelector(selector);
@@ -57,22 +59,7 @@ export function debounce<T extends (...args: any[]) => void>(
   };
 }
 
-
-// *Create the following types
-// Country
-// State
-
-// * Update this interface
-export interface City {
-  name: string;
-  state_name: string;
-  country_code: string;
-  latitude: string;
-  longitude: string;
-}
-
-// * Update this to take in Country
-export function findMatches(wordToMatch: string, cities: City[]): City[] {
+export function findMatches(wordToMatch: string, cities: FlattenedCity[]): FlattenedCity[] {
   const trimmedWord = wordToMatch.trim();
   if (!trimmedWord) return [];
   const regex = new RegExp(trimmedWord, "i");

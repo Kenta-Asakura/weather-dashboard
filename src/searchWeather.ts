@@ -7,7 +7,7 @@ import {
   debounce,
   findMatches
 } from "./utils";
-import { CountryApiResponse, StateApiResponse, CityApiResponse, FlattenedCity } from "./types/location.types";
+import { CountryApiResponse, FlattenedCity } from "./types/location.types";
 import { fetchAndUpdateWeatherData } from "./fetchWeather";
 
 // API Endpoint
