@@ -1,7 +1,5 @@
-import {
-  debounce,
-  findMatches
-} from "./utils";
+import { findMatches } from "./utils";
+import { debounce } from "./utils/debounce";
 import { CountryApiResponse, FlattenedCity } from "./types/location.types";
 import { fetchAndUpdateWeatherData } from "./fetchWeather";
 import { 
