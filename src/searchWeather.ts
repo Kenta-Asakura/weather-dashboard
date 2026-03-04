@@ -1,4 +1,5 @@
 import { findMatches } from "./utils";
+import { API_CONFIG, UI_CONFIG } from "./config";
 import { debounce } from "./utils/debounce";
 import { CountryApiResponse, FlattenedCity } from "./types/location.types";
 import { fetchAndUpdateWeatherData } from "./fetchWeather";
@@ -9,9 +10,6 @@ import {
   showElement,
   hideElement 
 } from "./ui/dom";
-
-// API Endpoint
-const COUNTRIES_STATES_CITIES_END_POINT: string = "https://raw.githubusercontent.com/dr5hn/countries-states-cities-database/refs/heads/master/json/countries%2Bstates%2Bcities.json"
 
 // DOM Elements
 const locationSearchElements = {
@@ -30,7 +28,7 @@ hideElement(locationSearchElements.buttons.hide, locationSearchElements.panel);
 // Fetch Cities Data
 async function fetchCitiesData(): Promise<FlattenedCity[]> {
   try {
-    const response = await fetch(COUNTRIES_STATES_CITIES_END_POINT);
+    const response = await fetch(API_CONFIG.citiesEndpoint);
     const countries: CountryApiResponse[] = await response.json();
     return countries.flatMap((country) =>  // gets array of state objects
       country.states.flatMap((state) =>     // gets array of cities objects
@@ -54,7 +52,7 @@ async function fetchCitiesData(): Promise<FlattenedCity[]> {
 
   locationSearchElements.input.addEventListener(
     "input",
-    debounce(() => displayMatches(cities), 500)
+    debounce(() => displayMatches(cities), UI_CONFIG.searchDebounceMs)
   );
 })();
 
@@ -78,7 +76,6 @@ const createCityElement = (city: FlattenedCity): HTMLElement => {
   clearInnerHTML(locationSearchElements.resultsList);
 
   if (citiesMatch.length === 0) return;
-  const MATCHES_BATCH_SIZE = 20;
   let currentBatchIndex = 0;
 
   const renderBatch = (batch: FlattenedCity[]): void => {
@@ -95,20 +92,20 @@ const createCityElement = (city: FlattenedCity): HTMLElement => {
   const loadNextBatch = (): void => {
     const nextBatch: FlattenedCity[] = citiesMatch.slice(
       currentBatchIndex,
-      currentBatchIndex + MATCHES_BATCH_SIZE
+      currentBatchIndex + UI_CONFIG.cityBatchSize
     );
 
     if (nextBatch.length === 0) return;
     renderBatch(nextBatch);
-    currentBatchIndex += MATCHES_BATCH_SIZE; 
+    currentBatchIndex += UI_CONFIG.cityBatchSize; 
 
     const lastCity = locationSearchElements.resultsList.lastChild;
     if (lastCity) observer.observe(lastCity as Element);
   }
 
-  const initialCityMatches: FlattenedCity[] = citiesMatch.slice(0, MATCHES_BATCH_SIZE);
+  const initialCityMatches: FlattenedCity[] = citiesMatch.slice(0, UI_CONFIG.cityBatchSize);
   renderBatch(initialCityMatches);
-  currentBatchIndex += MATCHES_BATCH_SIZE;
+  currentBatchIndex += UI_CONFIG.cityBatchSize;
 
   const observer = new IntersectionObserver ((entries) => {
     entries.forEach(entry => {

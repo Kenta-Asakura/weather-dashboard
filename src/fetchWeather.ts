@@ -1,11 +1,12 @@
+import { API_CONFIG } from "./config";
 import { getElement } from "./ui/dom";
 import { WeatherApiResponse } from "./types/weather.types";
 
-const apiKey = process.env.OPENWEATHER_API_KEY;
+const apiKey = API_CONFIG.weatherApiKey;
 
 if (!apiKey) {
   throw new Error('API key is missing. Please set the OPENWEATHER_API_KEY environment variable.');
-};
+}
 
 const currentWeatherElements = {
   location: getElement('.main-nav__location-btn'),
@@ -25,8 +26,8 @@ const searchWeatherElements = {
 
 // Helper functions
 function buildWeatherApiUrl(lat: number, lon: number): string {
-  return `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-};
+  return `${API_CONFIG.weatherBaseUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+}
 
 function updateCurrentWeather(data: WeatherApiResponse): void {
   // console.log(data);
