@@ -1,14 +1,16 @@
 // DOM utility functions
 // Shared helpers for type-safe DOM manipulation
 
-// export function getElement(selector: string): HTMLElement {
-export function getElement<T extends HTMLElement = HTMLElement>(selector: string): T {
-  const element = document.querySelector(selector);
+export function getElement<T extends HTMLElement = HTMLElement>(
+  selector: string
+): T {
+  const element = document.querySelector<T>(selector);
+  
   if (!element) {
-    throw new Error(`Element not found for selector: ${selector}`);
+    throw new Error(`Element not found: "${selector}"`);
   }
-  // return element as HTMLElement;
-  return element as T;
+
+  return element;
 }
 
 export const clearInnerHTML = (e:HTMLElement): void => {
