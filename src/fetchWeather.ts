@@ -9,19 +9,19 @@ if (!apiKey) {
 }
 
 const currentWeatherElements = {
-  location: getElement('.main-nav__location-btn'),
-  city : getElement('.current-weather__city'),
-  temp : getElement('.current-weather__temperature'),
-  condition : getElement('.current-weather__condition'),
-  tempHi : getElement('.current-weather__temperature-range__high'),
-  tempLo : getElement('.current-weather__temperature-range__low')
+  location: getElement<HTMLButtonElement>('.main-nav__location-btn'),
+  city : getElement<HTMLHeadingElement>('.current-weather__city'),
+  temp : getElement<HTMLHeadingElement>('.current-weather__temperature'),
+  condition : getElement<HTMLParagraphElement>('.current-weather__condition'),
+  tempHi : getElement<HTMLSpanElement>('.current-weather__temperature-range__high'),
+  tempLo : getElement<HTMLSpanElement>('.current-weather__temperature-range__low')
 };
 
 const searchWeatherElements = {
-  city: getElement('.location-search__top-current-location'),
-  temp: getElement('.location-search__top-current-temperature'),
-  // icon: getElement('.location-search__top-current-icon-desktop'),
-  // iconMobile: getElement('.location-search__top-current-icon-mobile')
+  city: getElement<HTMLParagraphElement>('.location-search__top-current-location'),
+  temp: getElement<HTMLSpanElement>('.location-search__top-current-temperature'),
+  // icon: getElement<HTMLImageElement>('.location-search__top-current-icon-desktop'),
+  // iconMobile: getElement<HTMLSourceElement>('.location-search__top-current-icon-mobile')
 };
 
 // Helper functions

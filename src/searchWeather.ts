@@ -15,11 +15,11 @@ import {
 const locationSearchElements = {
   panel: getElement(".location-search"),
   buttons: {
-    show: getElement(".main-nav__location-btn"),
-    hide: getElement(".location-search__top-close-btn"),
+    show: getElement<HTMLButtonElement>(".main-nav__location-btn"),
+    hide: getElement<HTMLButtonElement>(".location-search__top-close-btn"),
   },
   input: getElement<HTMLInputElement>("#location-input"),
-  resultsList: getElement(".location-search__bottom-results-list"),
+  resultsList: getElement<HTMLUListElement>(".location-search__bottom-results-list"),
 };
 
 showElement(locationSearchElements.buttons.show, locationSearchElements.panel);
