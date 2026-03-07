@@ -69,7 +69,7 @@ const createCityElement = (city: FlattenedCity): HTMLElement => {
   return li;
 };
 
-  function displayMatches(cities: FlattenedCity[]): void {
+function displayMatches(cities: FlattenedCity[]): void {
   const searchInputValue: string = locationSearchElements.input.value.trim();
   const citiesMatch: FlattenedCity[] = findMatches(searchInputValue, cities);
 
@@ -120,9 +120,7 @@ const createCityElement = (city: FlattenedCity): HTMLElement => {
   if (lastCity) observer.observe(lastCity as Element);
 }
 
-locationSearchElements.resultsList.addEventListener(
-  'click',
-  (e: MouseEvent) => {
+locationSearchElements.resultsList.addEventListener('click', (e: MouseEvent) => {
     const target = e.target as HTMLElement | null;
     const location = target?.closest('.location-search__bottom-results-item') as HTMLElement;
     if (!(location instanceof HTMLElement)) return;
