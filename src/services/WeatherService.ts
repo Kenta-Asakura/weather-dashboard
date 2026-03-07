@@ -13,4 +13,17 @@ export class WeatherService {
             throw new Error("Missing OPENWEATHER_API_KEY in .env file");
         }
     }
+
+    // Method to fetch weather by coordinates
+    async getWeatherByCoords(lat: number, lon: number): Promise<WeatherData> {
+        const url = `${this.baseUrl}?lat=${lat}&lon=${lon}&appid=${this.apiKey}&units=metric`;
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`Weather API error: ${response.status} ${response.statusText}`);
+        }
+
+        const raw: WeatherApiResponse = await response.json();
+        return mapWeatherResponse(raw);
+    }
 }
