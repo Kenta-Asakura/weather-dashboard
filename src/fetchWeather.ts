@@ -1,12 +1,18 @@
 import { API_CONFIG } from "./config";
 import { getElement } from "./ui/dom";
-import { WeatherApiResponse } from "./types/weather.types";
+import { WeatherApiResponse, WeatherData } from "./types/weather.types";
+import { WeatherService } from "./services/WeatherService";
 
+// !TEST
+const weatherService = new WeatherService();
+
+// !needs to be deleted
 const apiKey = API_CONFIG.weatherApiKey;
 
 if (!apiKey) {
   throw new Error('API key is missing. Please set the OPENWEATHER_API_KEY environment variable.');
 }
+// !
 
 const currentWeatherElements = {
   location: getElement<HTMLButtonElement>('.main-nav__location-btn'),
@@ -29,20 +35,18 @@ function buildWeatherApiUrl(lat: number, lon: number): string {
   return `${API_CONFIG.weatherBaseUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 }
 
-function updateCurrentWeather(data: WeatherApiResponse): void {
-  // console.log(data);
-  const { name, sys, main, weather  } = data;
+function updateCurrentWeather(data: WeatherData): void {
   const { location, city, temp, condition, tempHi, tempLo } = currentWeatherElements;
 
-  location.innerHTML = `${name}, ${sys.country} <span class='caret'></span>`;
-  city.textContent = name;
-  temp.textContent = `${Math.round(main.temp)}°`;
-  condition.textContent = weather[0].main;
-  tempHi.textContent = `H:${Math.round(main.temp_max)}°`;
-  tempLo.textContent = `L:${Math.round(main.temp_min)}°`;
+  location.innerHTML = `${data.cityName}, ${data.country} <span class='caret'></span>`;
+  city.textContent = data.cityName;
+  temp.textContent = `${data.temperature}°`;
+  condition.textContent = data.condition;
+  tempHi.textContent = `H:${data.tempMax}°`;
+  tempLo.textContent = `L:${data.tempMin}°`;
 };
 
-function updateSearchWeather(data: WeatherApiResponse): void {
+function updateSearchWeather(data: Weat): void {
   const { name, weather, main } = data;
   const {
     city,
