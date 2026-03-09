@@ -46,22 +46,14 @@ function updateCurrentWeather(data: WeatherData): void {
   tempLo.textContent = `L:${data.tempMin}°`;
 };
 
-function updateSearchWeather(data: Weat): void {
-  const { name, weather, main } = data;
-  const {
-    city,
-    temp,
-    // icon,
-    // iconMobile
-  } = searchWeatherElements;
-  const iconUrl = `https://openweathermap.org/img/wn/${weather[0].icon}@2x.png`;
-  const iconMobileUrl = `https://openweathermap.org/img/wn/${weather[0].icon}.png`;
+function updateSearchWeather(data: WeatherData): void {
+  // const { name, weather, main } = data;
+  const { city, temp } = searchWeatherElements;
+  const iconUrl = `https://openweathermap.org/img/wn/${data.iconCode}@2x.png`;
+  const iconMobileUrl = `https://openweathermap.org/img/wn/${data.iconCode}.png`;
 
-  city.textContent = name;
-  // icon.src = iconUrl;
-  // icon.alt = weather[0].main;;
-  // iconMobile.srcset = iconMobileUrl;
-  temp.textContent = `${Math.round(main.temp)}°`;
+  city.textContent = data.cityName;
+  temp.textContent = `${data.temperature}°`;
 };
 
 
