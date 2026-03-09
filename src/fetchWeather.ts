@@ -3,16 +3,7 @@ import { getElement } from "./ui/dom";
 import { WeatherApiResponse, WeatherData } from "./types/weather.types";
 import { WeatherService } from "./services/WeatherService";
 
-// !TEST
 const weatherService = new WeatherService();
-
-// !needs to be deleted
-const apiKey = API_CONFIG.weatherApiKey;
-
-if (!apiKey) {
-  throw new Error('API key is missing. Please set the OPENWEATHER_API_KEY environment variable.');
-}
-// !
 
 const currentWeatherElements = {
   location: getElement<HTMLButtonElement>('.main-nav__location-btn'),
@@ -30,11 +21,6 @@ const searchWeatherElements = {
   // iconMobile: getElement<HTMLSourceElement>('.location-search__top-current-icon-mobile')
 };
 
-// Helper functions
-function buildWeatherApiUrl(lat: number, lon: number): string {
-  return `${API_CONFIG.weatherBaseUrl}?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
-}
-
 function updateCurrentWeather(data: WeatherData): void {
   const { location, city, temp, condition, tempHi, tempLo } = currentWeatherElements;
 
@@ -47,7 +33,6 @@ function updateCurrentWeather(data: WeatherData): void {
 };
 
 function updateSearchWeather(data: WeatherData): void {
-  // const { name, weather, main } = data;
   const { city, temp } = searchWeatherElements;
   const iconUrl = `https://openweathermap.org/img/wn/${data.iconCode}@2x.png`;
   const iconMobileUrl = `https://openweathermap.org/img/wn/${data.iconCode}.png`;
@@ -58,26 +43,19 @@ function updateSearchWeather(data: WeatherData): void {
 
 
 // Main function
-export function fetchAndUpdateWeatherData(lat: number, lon: number): void {
-  const url = buildWeatherApiUrl(lat, lon);
+export async function fetchAndUpdateWeatherData(lat: number, lon: number): Promise<void> {
+    try {
+      const WeatherData = await weatherService.getWeatherByCoords(lat, lon);
 
-  fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      // console.log(data);
-      updateCurrentWeather(data);
-      updateSearchWeather(data);
-    })
-    .catch(error => {
-      console.error('Error fetching the data:', error)
+      updateCurrentWeather(WeatherData);
+      updateSearchWeather(WeatherData);
+    } catch (error) {
+       console.error('Error fetching weather:', error);
+    
+      // Show error state to user
       currentWeatherElements.city.textContent = 'Error loading data';
       currentWeatherElements.temp.textContent = '--';
-    });
+    }
 };
 
 function fetchCurrentLocationData(): void {
