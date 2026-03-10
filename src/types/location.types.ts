@@ -34,3 +34,9 @@ export interface FlattenedCity {
   state_name: string;
   country_code: string;
 }
+
+// Simple coordinate pair - used by geolocation and weather APIs
+export interface Coordinates {
+  latitude: number;
+  longitude: number;
+}
