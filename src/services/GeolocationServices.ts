@@ -16,7 +16,15 @@ export class GeolocationService {
                     });
                 },
                 (error) => {
-                    console.log('Geolocation error:', error);
+                    // Map default browser error codes to human readable messages
+                    const messages: Record<number, string> = {
+                        1: 'Location permission denied.',
+                        2: 'Location unavailable.',
+                        3: 'Location request timed out.',
+                    };
+                    
+                    const message = messages[error.code] ?? 'Unknown geolocation error.';
+                    reject(new Error(message));
                 }
             )
         });
