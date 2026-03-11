@@ -2,8 +2,11 @@ import { API_CONFIG } from "./config";
 import { getElement } from "./ui/dom";
 import { WeatherApiResponse, WeatherData } from "./types/weather.types";
 import { WeatherService } from "./services/WeatherService";
+import { GeolocationService } from "./services/GeolocationService";
 
+// Create service instances
 const weatherService = new WeatherService();
+const geolocationService = new GeolocationService();
 
 const currentWeatherElements = {
   location: getElement<HTMLButtonElement>('.main-nav__location-btn'),
@@ -58,19 +61,15 @@ export async function fetchAndUpdateWeatherData(lat: number, lon: number): Promi
     }
 };
 
-function fetchCurrentLocationData(): void {
-  if (navigator.geolocation) {
-    navigator.geolocation.getCurrentPosition(position => {
-      const latitude = position.coords.latitude;
-      const longitude = position.coords.longitude;
-      fetchAndUpdateWeatherData(latitude, longitude);
-    }, error => {
-      console.error('Error getting geolocation:', error);
-    });
-  } else {
-    console.error('Geolocation is not supported by this browser.');
+async function fetchCurrentLocationData(): Promise<void> {
+  try {
+    const coords = await geolocationService.getCurrentPosition();
+    
+    await fetchAndUpdateWeatherData(coords.latitude, coords.longitude);
+  } catch (error) {
+    console.error('Error getting location:', error);
   }
-};
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   fetchCurrentLocationData();
