@@ -25,6 +25,9 @@ export class GeolocationService {
                     
                     const message = messages[error.code] ?? 'Unknown geolocation error.';
                     reject(new Error(message));
+                },
+                {
+                    timeout: 10000  // Wait max 10 seconds before timing out
                 }
             )
         });
