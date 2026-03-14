@@ -8,12 +8,9 @@ export class CitySearchService {
     private isLoaded = false;
 
     async loadCities(): Promise<void> {
-        console.log(this.isLoaded);
         if (this.isLoaded) return;
 
         try {
-            // console.log('Fetching cities...');
-
             const response = await fetch(API_CONFIG.citiesEndpoint);
             const countries: CountryApiResponse[] = await response.json();
 
@@ -28,16 +25,21 @@ export class CitySearchService {
                     }))
                 )
             );
-            
-            // console.log('Total cities loaded:', this.cities.length);
-            // console.log('Sample city:', this.cities[0]);
 
-            // console.log('setting isLoaded to true');
             this.isLoaded = true;
-
         } catch (error) {
             console.error('Failed to load cities data:', error);
             this.cities = [];
         }
     }    
+
+    search(query: string): FlattenedCity[] {
+        const trimmed = query.trim();
+        if (!trimmed) return [];
+        const regex = new RegExp(trimmed, "i");
+
+        return this.cities.filter((city) => 
+            regex.test(city.name) || regex.test(city.state_name)
+        );
+    }
 }
