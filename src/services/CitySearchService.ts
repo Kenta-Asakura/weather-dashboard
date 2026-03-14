@@ -8,17 +8,33 @@ export class CitySearchService {
     private isLoaded = false;
 
     async loadCities(): Promise<void> {
+        console.log(this.isLoaded);
         if (this.isLoaded) return;
-        this.isLoaded = true; // ! delete later
 
         try {
-            console.log('Fetching cities...');
+            // console.log('Fetching cities...');
 
             const response = await fetch(API_CONFIG.citiesEndpoint);
-            console.log(response);
+            const countries: CountryApiResponse[] = await response.json();
 
-            response.json
-            // TODO: parse JSON
+            this.cities = countries.flatMap((country) =>
+                country.states.flatMap((state) =>
+                    state.cities.map((city) => ({
+                        name: city.name,
+                        state_name: state.name,
+                        country_code: country.iso2,
+                        latitude: city.latitude,
+                        longitude: city.longitude,
+                    }))
+                )
+            );
+            
+            // console.log('Total cities loaded:', this.cities.length);
+            // console.log('Sample city:', this.cities[0]);
+
+            // console.log('setting isLoaded to true');
+            this.isLoaded = true;
+
         } catch (error) {
             console.error('Failed to load cities data:', error);
             this.cities = [];
