@@ -1,7 +1,6 @@
-import { findMatches } from "./utils";
-import { API_CONFIG, UI_CONFIG } from "./config";
+import { UI_CONFIG } from "./config";
 import { debounce } from "./utils/debounce";
-import { CountryApiResponse, FlattenedCity } from "./types/location.types";
+import { FlattenedCity } from "./types/location.types";
 import { fetchAndUpdateWeatherData } from "./fetchWeather";
 import { 
   getElement, 
@@ -10,6 +9,9 @@ import {
   showElement,
   hideElement 
 } from "./ui/dom";
+import { CitySearchService } from "./services/CitySearchService";
+
+const citySearchService = new CitySearchService();
 
 // DOM Elements
 const locationSearchElements = {
@@ -26,33 +28,12 @@ showElement(locationSearchElements.buttons.show, locationSearchElements.panel);
 hideElement(locationSearchElements.buttons.hide, locationSearchElements.panel);
 
 // Fetch Cities Data
-async function fetchCitiesData(): Promise<FlattenedCity[]> {
-  try {
-    const response = await fetch(API_CONFIG.citiesEndpoint);
-    const countries: CountryApiResponse[] = await response.json();
-    return countries.flatMap((country) =>  // gets array of state objects
-      country.states.flatMap((state) =>     // gets array of cities objects
-        state.cities.map((city) => ({         // gets array of cities
-          name: city.name,
-          state_name: state.name,
-          country_code: country.iso2,
-          latitude: city.latitude,
-          longitude: city.longitude,
-        }))
-      )
-    );
-  } catch (error) {
-    console.error('Error fetching cities data:', error);
-    return [];
-  }
-}
-
 (async () => {
-  const cities = await fetchCitiesData();
+  await citySearchService.loadCities();
 
   locationSearchElements.input.addEventListener(
     "input",
-    debounce(() => displayMatches(cities), UI_CONFIG.searchDebounceMs)
+    debounce(() => displayMatches(), UI_CONFIG.searchDebounceMs)
   );
 })();
 
@@ -69,9 +50,10 @@ const createCityElement = (city: FlattenedCity): HTMLElement => {
   return li;
 };
 
-function displayMatches(cities: FlattenedCity[]): void {
+function displayMatches(): void {
   const searchInputValue: string = locationSearchElements.input.value.trim();
-  const citiesMatch: FlattenedCity[] = findMatches(searchInputValue, cities);
+  // const citiesMatch: FlattenedCity[] = findMatches(searchInputValue, cities);
+  const citiesMatch: FlattenedCity[] = citySearchService.search(searchInputValue);
 
   clearInnerHTML(locationSearchElements.resultsList);
 
