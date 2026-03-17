@@ -1,6 +1,5 @@
-import { API_CONFIG } from "./config";
 import { getElement } from "./ui/dom";
-import { WeatherApiResponse, WeatherData } from "./types/weather.types";
+import { WeatherData } from "./types/weather.types";
 import { WeatherService } from "./services/WeatherService";
 import { GeolocationService } from "./services/GeolocationService";
 
