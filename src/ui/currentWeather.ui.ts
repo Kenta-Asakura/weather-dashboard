@@ -2,10 +2,6 @@ import { WeatherData } from '../types/weather.types';
 import { AsyncState } from '../types/ui.types';
 import { getElement } from './dom';
 
-// Owns the main weather display section and the header location button.
-// Pure rendering — no data fetching, no service calls.
-
-// --- DOM Element Cache ---
 const elements = {
   locationBtn: getElement<HTMLButtonElement>('.main-nav__location-btn'),
   city: getElement<HTMLHeadingElement>('.current-weather__city'),
@@ -19,6 +15,13 @@ export function render(state: AsyncState<WeatherData>): void {
   const { locationBtn, city, temp, condition, tempHi, tempLo } = elements;
 
   switch (state.status) {
+    case 'idle':
+        city.textContent = '';
+        temp.textContent = '';
+        condition.textContent = '';
+        tempHi.textContent = '';
+        tempLo.textContent = '';
+      break;
     case 'loading':
         city.textContent = 'Loading...';
         temp.textContent = '--';
@@ -36,11 +39,12 @@ export function render(state: AsyncState<WeatherData>): void {
         tempLo.textContent = `L:${data.tempMin}°`;
       break
     }
-    case 'idle':
-      // TODO: Implement
-      break
     case 'error':
-      // TODO: Implement
+        city.textContent = 'Error loading data';
+        temp.textContent = '--';
+        condition.textContent = state.error;
+        tempHi.textContent = '';
+        tempLo.textContent = '';
       break
     default:
       break;
